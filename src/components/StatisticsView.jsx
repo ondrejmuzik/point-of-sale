@@ -1,0 +1,154 @@
+import React from 'react';
+import { products } from '../constants/products';
+
+const StatisticsView = ({ orders }) => {
+  const calculateStats = () => {
+    const allCompletedOrders = orders.filter(o => o.completed);
+
+    const totalRevenue = allCompletedOrders.reduce((sum, order) =>
+      sum + parseFloat(order.total), 0
+    );
+
+    const itemsSold = {};
+    products.forEach(product => {
+      itemsSold[product.name] = 0;
+    });
+
+    allCompletedOrders.forEach(order => {
+      order.items.forEach(item => {
+        if (itemsSold.hasOwnProperty(item.name)) {
+          itemsSold[item.name] += 1;
+        }
+      });
+    });
+
+    const revenuePerItem = {};
+    products.forEach(product => {
+      revenuePerItem[product.name] = 0;
+    });
+
+    allCompletedOrders.forEach(order => {
+      order.items.forEach(item => {
+        if (revenuePerItem.hasOwnProperty(item.name)) {
+          revenuePerItem[item.name] += item.price;
+        }
+      });
+    });
+
+    return {
+      totalRevenue,
+      totalOrders: allCompletedOrders.length,
+      itemsSold,
+      revenuePerItem,
+      totalItemsSold: Object.values(itemsSold).reduce((sum, count) => sum + count, 0)
+    };
+  };
+
+  const stats = calculateStats();
+
+  return (
+    <section className="section">
+      <div className="container">
+        <div className="columns mb-5">
+          <div className="column">
+            <div className="box has-text-centered">
+              <p className="heading">Total Revenue</p>
+              <p className="title is-1 has-text-success">${stats.totalRevenue.toFixed(2)}</p>
+            </div>
+          </div>
+
+          <div className="column">
+            <div className="box has-text-centered">
+              <p className="heading">Completed Orders</p>
+              <p className="title is-1 has-text-danger">{stats.totalOrders}</p>
+            </div>
+          </div>
+
+          <div className="column">
+            <div className="box has-text-centered">
+              <p className="heading">Items Sold</p>
+              <p className="title is-1 has-text-info">{stats.totalItemsSold}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="box mb-5">
+          <h2 className="title is-3 mb-4">Sales by Item</h2>
+          <div className="product-stats">
+            {products.map(product => {
+              const count = stats.itemsSold[product.name];
+              const revenue = stats.revenuePerItem[product.name];
+              const percentage = stats.totalItemsSold > 0
+                ? (count / stats.totalItemsSold * 100).toFixed(1)
+                : 0;
+
+              return (
+                <article key={product.id} className="mb-5 pb-4" style={{ borderBottom: '1px solid #dbdbdb' }}>
+                  <div className="level is-mobile mb-2">
+                    <div className="level-left">
+                      <div className="level-item">
+                        <h3 className="title is-5">{product.name}</h3>
+                      </div>
+                    </div>
+                    <div className="level-right">
+                      <div className="level-item">
+                        <span className="tag is-light">{percentage}%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="columns">
+                    <div className="column">
+                      <p className="has-text-grey">Units sold:</p>
+                      <p className="title is-4">{count}</p>
+                    </div>
+
+                    <div className="column">
+                      <p className="has-text-grey">Revenue:</p>
+                      <p className="title is-4 has-text-success">${revenue.toFixed(2)}</p>
+                    </div>
+                  </div>
+
+                  <progress
+                    className="progress is-danger"
+                    value={percentage}
+                    max="100"
+                  >
+                    {percentage}%
+                  </progress>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="box">
+          <h2 className="title is-3 mb-4">Additional Metrics</h2>
+          <div className="columns">
+            <div className="column">
+              <p className="has-text-grey mb-2">Average Order Value</p>
+              <p className="title is-2">
+                ${stats.totalOrders > 0 ? (stats.totalRevenue / stats.totalOrders).toFixed(2) : '0.00'}
+              </p>
+            </div>
+            <div className="column">
+              <p className="has-text-grey mb-2">Avg Items per Order</p>
+              <p className="title is-2">
+                {stats.totalOrders > 0 ? (stats.totalItemsSold / stats.totalOrders).toFixed(1) : '0'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {stats.totalOrders === 0 && (
+          <div className="notification is-warning mt-5">
+            <p className="has-text-weight-semibold">No completed orders yet</p>
+            <p>Statistics will appear here once you complete some orders.</p>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default StatisticsView;

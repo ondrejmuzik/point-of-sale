@@ -1,0 +1,49 @@
+/**
+ * Point of Sale App - Custom Styles with Bulma
+ *
+ * This file contains custom styles that complement Bulma.
+ * Most styling is handled by Bulma classes directly in components.
+ */
+
+/* Animations */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Product Button Custom Styling */
+.product-button {
+  display: flex !important;
+  justify-content: space-between !important;
+  transition: transform 0.1s ease;
+}
+
+.product-button.is-focused {
+  transform: scale(0.95);
+}
+
+/* Tab Navigation Custom */
+.tabs a {
+  cursor: pointer;
+}
+
+/* Make buttons in product button layout flex correctly */
+.button span.ml-auto {
+  margin-left: auto !important;
+}
+
+/* Ensure level items work on mobile */
+@media screen and (max-width: 768px) {
+  .level.is-mobile {
+    display: flex !important;
+  }
+}
+
+/* Custom container max-width for better readability */
+.container {
+  max-width: 1200px;
+}
