@@ -5,9 +5,12 @@ const StatisticsView = ({ orders }) => {
   const calculateStats = () => {
     const allCompletedOrders = orders.filter(o => o.completed);
 
-    const totalRevenue = allCompletedOrders.reduce((sum, order) =>
-      sum + parseFloat(order.total), 0
-    );
+    const totalRevenue = allCompletedOrders.reduce((sum, order) => {
+      const orderRevenue = order.items
+        .filter(item => item.id !== 'cup')
+        .reduce((itemSum, item) => itemSum + item.price, 0);
+      return sum + orderRevenue;
+    }, 0);
 
     const itemsSold = {};
     products.forEach(product => {

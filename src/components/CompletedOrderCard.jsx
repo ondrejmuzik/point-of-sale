@@ -7,14 +7,14 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
         <div className="level-left">
           <div className="level-item">
             <div>
-              <h3 className="title is-5 has-text-grey">Order #{order.orderNumber}</h3>
+              <h3 className="title is-5 has-text-grey">Objednávka #{order.orderNumber}</h3>
               <p className="subtitle is-6 has-text-grey-light">{order.timestamp}</p>
             </div>
           </div>
         </div>
         <div className="level-right">
           <div className="level-item">
-            <p className="title is-4 has-text-grey">${order.total}</p>
+            <p className="title is-4 has-text-grey">{order.total},-</p>
           </div>
         </div>
       </header>
@@ -30,7 +30,7 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
               </div>
               <div className="level-right">
                 <div className="level-item">
-                  <span className="has-text-grey has-text-weight-semibold">${item.price.toFixed(2)}</span>
+                  <span className="has-text-grey has-text-weight-semibold">{item.price.toFixed(0)},-</span>
                 </div>
               </div>
             </div>
@@ -43,7 +43,7 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
           onClick={() => onReopen(order.id)}
           className="button is-light"
         >
-          Reopen
+          Znovu otevřít
         </button>
         <button
           onClick={() => onDelete(order)}

@@ -2,6 +2,8 @@ import React from 'react';
 import { products, cupDeposit } from '../constants/products';
 import ProductButton from './ProductButton';
 import CartItem from './CartItem';
+import cupIcon from '../assets/cup.svg';
+import cupReturnIcon from '../assets/cup-return.svg';
 
 const POSView = ({
   orderNumber,
@@ -16,95 +18,124 @@ const POSView = ({
   onCompleteOrder,
   getTotal
 }) => {
-  return (
-    <section className="section">
-      <div className="container">
-        <div className="box">
-          <h2 className="title is-3">
-            {editingOrder ? `Edit Order #${editingOrder.orderNumber}` : `Order #${orderNumber}`}
-          </h2>
+  // Sort cart items based on product grid order
+  const getSortedCart = () => {
+    const productOrder = products.map(p => p.id);
+    // Define order: products first, then cup, then cup return
+    const orderMap = {};
+    productOrder.forEach((id, index) => {
+      orderMap[id] = index;
+    });
+    orderMap['cup'] = productOrder.length;
+    orderMap['cup-return'] = productOrder.length + 1;
 
-          <div className="product-list mb-4">
-            {products.map(product => (
-              <div key={product.id} className="mb-3">
+    return [...cart].sort((a, b) => {
+      const orderA = orderMap[a.id] ?? orderMap[a.cartKey] ?? 999;
+      const orderB = orderMap[b.id] ?? orderMap[b.cartKey] ?? 999;
+      return orderA - orderB;
+    });
+  };
+
+  const sortedCart = getSortedCart();
+  return (
+    <section className="section pos-view-modern">
+      <div className="container">
+        <div className="columns">
+          {/* Left Side - Product Grid */}
+          <div className="column is-6">
+            <div className="product-grid">
+              {products.map(product => (
                 <ProductButton
+                  key={product.id}
                   product={product}
                   onClick={onAddToCart}
                   isClicked={clickedButton === product.id}
                 />
-              </div>
-            ))}
+              ))}
+
+              {/* Buy Cup Button */}
+              <button
+                onClick={() => onAddToCart({ id: 'cup', name: 'Kelímek', price: cupDeposit, icon: 'cup.svg' })}
+                className="product-card product-card--cup"
+              >
+                <div className="product-card__icon">
+                  <img src={cupIcon} alt="Kelímek" />
+                </div>
+                <div className="product-card__name">Kelímek</div>
+                <div className="product-card__price">{cupDeposit.toFixed(0)},-</div>
+              </button>
+
+              {/* Cup Return Button */}
+              <button
+                onClick={onAddCupReturn}
+                className="product-card product-card--return"
+              >
+                <div className="product-card__icon">
+                  <img src={cupReturnIcon} alt="Vrácení kelímku" />
+                </div>
+                <div className="product-card__name">Vrácení kelímku</div>
+                <div className="product-card__price">{-cupDeposit.toFixed(0)},-</div>
+              </button>
+            </div>
           </div>
 
-          <button
-            onClick={onAddCupReturn}
-            className="button is-danger is-light is-large is-fullwidth mb-5"
-          >
-            <span className="has-text-weight-bold">Return Cup</span>
-            <span className="has-text-weight-bold ml-auto">-${cupDeposit.toFixed(2)}</span>
-          </button>
+          {/* Right Side - Order Summary */}
+          <div className="column is-6">
+            <div className="order-summary">
+              <div className="order-summary__inner">
+                <h2 className="order-summary__title">Objednávka</h2>
 
-          {cart.length > 0 && (
-            <div className="cart">
-              <hr />
-              <h3 className="title is-4 mt-5">Current Order</h3>
-              <div className="cart__items">
-                {cart.map(item => (
-                  <CartItem
-                    key={item.cartKey}
-                    item={item}
-                    onUpdateQuantity={onUpdateQuantity}
-                  />
-                ))}
-              </div>
+                {cart.length > 0 ? (
+                  <>
+                    <div className="order-summary__items">
+                      {sortedCart.map(item => (
+                        <CartItem
+                          key={item.cartKey}
+                          item={item}
+                          onUpdateQuantity={onUpdateQuantity}
+                        />
+                      ))}
+                    </div>
 
-              <hr className="my-5" />
+                    <div className="order-summary__total">
+                      <span className="order-summary__total-label">Celkem:</span>
+                      <span className={`order-summary__total-amount ${parseFloat(getTotal()) < 0 ? 'order-summary__total-amount--negative' : ''}`}>{getTotal()},-</span>
+                    </div>
 
-              <div className="level is-mobile mb-5">
-                <div className="level-left">
-                  <div className="level-item">
-                    <p className="title is-2">Total:</p>
+                    <button
+                      onClick={onCompleteOrder}
+                      className="button is-danger is-large is-fullwidth is-rounded order-summary__pay-button has-text-white"
+                    >
+                      {editingOrder ? 'Uložit změny' : 'Dokončit'}
+                    </button>
+
+                    <div className="buttons mt-3">
+                      <button
+                        onClick={onClearCart}
+                        className="button is-light is-fullwidth"
+                      >
+                        Stornovat
+                      </button>
+                      {editingOrder && (
+                        <button
+                          onClick={onCancelEdit}
+                          className="button is-warning is-fullwidth"
+                        >
+                          Zrušit změny
+                        </button>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="order-summary__empty">
+                    <p className="has-text-centered has-text-grey">
+                      Přidejte položky do objednávky
+                    </p>
                   </div>
-                </div>
-                <div className="level-right">
-                  <div className="level-item">
-                    <p className="title is-2 has-text-danger">${getTotal()}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="buttons">
-                <button
-                  onClick={onClearCart}
-                  className="button is-light is-large"
-                >
-                  Clear
-                </button>
-                {editingOrder && (
-                  <button
-                    onClick={onCancelEdit}
-                    className="button is-warning is-large"
-                  >
-                    Cancel Edit
-                  </button>
                 )}
-                <button
-                  onClick={onCompleteOrder}
-                  className="button is-success is-large ml-auto"
-                >
-                  {editingOrder ? 'Update Order' : 'Complete Order'}
-                </button>
               </div>
             </div>
-          )}
-
-          {cart.length === 0 && (
-            <div className="notification is-light">
-              <p className="has-text-centered has-text-grey is-size-5">
-                Select items to start an order
-              </p>
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </section>

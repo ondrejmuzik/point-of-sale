@@ -6,14 +6,12 @@ const TabNavigation = ({ activeTab, onTabChange, pendingCount }) => {
       <ul>
         <li className={activeTab === 'pos' ? 'is-active' : ''}>
           <a onClick={() => onTabChange('pos')}>
-            <span className="icon">💰</span>
-            <span>New Order</span>
+            <strong>Prodej</strong>
           </a>
         </li>
         <li className={activeTab === 'orders' ? 'is-active' : ''}>
           <a onClick={() => onTabChange('orders')}>
-            <span className="icon">🕐</span>
-            <span>Orders</span>
+            <strong>Objednávky</strong>
             {pendingCount > 0 && (
               <span className="tag is-danger is-rounded ml-2">
                 {pendingCount}
@@ -23,8 +21,7 @@ const TabNavigation = ({ activeTab, onTabChange, pendingCount }) => {
         </li>
         <li className={activeTab === 'stats' ? 'is-active' : ''}>
           <a onClick={() => onTabChange('stats')}>
-            <span className="icon">📊</span>
-            <span>Statistics</span>
+            <strong>Statistika</strong>
           </a>
         </li>
       </ul>

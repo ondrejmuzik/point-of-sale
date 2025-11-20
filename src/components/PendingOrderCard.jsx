@@ -17,17 +17,17 @@ const PendingOrderCard = ({
         <div className="level-left">
           <div className="level-item">
             <div>
-              <h3 className="title is-4 has-text-danger">Order #{order.orderNumber}</h3>
+              <h3 className="title is-4 has-text-danger">Objednávka #{order.orderNumber}</h3>
               <p className="subtitle is-6 has-text-grey">{order.timestamp}</p>
               <p className="subtitle is-6 has-text-danger has-text-weight-semibold">
-                {readyCount} of {order.items.length} items ready
+                {readyCount} z {order.items.length} položek vydáno
               </p>
             </div>
           </div>
         </div>
         <div className="level-right">
           <div className="level-item">
-            <p className="title is-3">${order.total}</p>
+              <p className="title is-3">{order.total},-</p>
           </div>
         </div>
       </header>
@@ -45,7 +45,7 @@ const PendingOrderCard = ({
               {item.ready && <span className="mr-2">✅</span>}
               {item.name}
             </span>
-            <span className="has-text-weight-bold">${item.price.toFixed(2)}</span>
+            <span className="has-text-weight-bold">{item.price.toFixed(0)},-</span>
           </button>
         ))}
       </div>
@@ -55,13 +55,13 @@ const PendingOrderCard = ({
           onClick={() => onMarkAllReady(order.id)}
           className="button is-danger"
         >
-          Mark All Ready
+          Označit vše za vydané
         </button>
         <button
           onClick={() => onEdit(order)}
           className="button is-warning"
         >
-          Edit Order
+          Upravit objednávku
         </button>
       </div>
 
@@ -74,7 +74,7 @@ const PendingOrderCard = ({
           <span className="icon mr-2">
             <span>✅</span>
           </span>
-          <span>{allReady ? 'Complete Order' : 'Force Complete'}</span>
+          <span>{allReady ? 'Uzavřít objednávku' : 'Uzavřít objednávku'}</span>
         </button>
         <button
           onClick={() => onDelete(order)}

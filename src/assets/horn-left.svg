@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   sodipodi:docname="horn-left.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1.625"
+     inkscape:cx="235.07692"
+     inkscape:cy="288"
+     inkscape:window-width="3008"
+     inkscape:window-height="1639"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path2"
+       d="m 189.49345,44.840336 c 0,0 -110.559296,216.576064 68.15303,422.548584 0,0 22.71768,18.17629 43.16353,-9.08673 0,0 53.76595,-77.99704 55.27993,-139.3346 0,0 3.02797,-21.20426 -12.87311,-28.777 0,0 -145.015,-84.81139 -141.60727,-245.350254 0,0 1.13591,-5.427229 -4.79598,-6.058762 0,0 -3.87772,-1.40967 -7.32013,6.058762"
+       style="fill:#fff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0281934" />
+  </g>
+</svg>

@@ -11,6 +11,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* --bulma-radius: 0; */
+
 }
 
 a {
@@ -23,10 +26,13 @@ a:hover {
 }
 
 body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+
   margin: 0 auto;
   /* display: flex;
   place-items: center; */
-  max-width: 500px;
+  max-width: 810px;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -66,4 +72,8 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.header {
+  background: #b53839;
 }

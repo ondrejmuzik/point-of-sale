@@ -10,7 +10,7 @@ const ConfirmModal = ({ message, onCancel, onConfirm }) => {
             <span className="icon is-large mr-2">
               <span style={{ fontSize: '1.5rem' }}>⚠️</span>
             </span>
-            Confirm Action
+            Potvrzení
           </p>
           <button className="delete" aria-label="close" onClick={onCancel}></button>
         </header>
@@ -18,8 +18,8 @@ const ConfirmModal = ({ message, onCancel, onConfirm }) => {
           <p className="is-size-5">{message}</p>
         </section>
         <footer className="modal-card-foot">
-          <button onClick={onConfirm} className="button is-danger">Confirm</button>
-          <button onClick={onCancel} className="button">Cancel</button>
+          <button onClick={onConfirm} className="button is-danger">Potvrdit</button>
+          <button onClick={onCancel} className="button">Zpět</button>
         </footer>
       </div>
     </div>

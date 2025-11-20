@@ -14,20 +14,72 @@ export const useCart = () => {
 
     const existing = cart.find(item => item.cartKey === cartKey);
     if (existing) {
-      setCart(cart.map(item =>
-        item.cartKey === cartKey
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      ));
+      setCart(prevCart => {
+        const updatedCart = prevCart.map(item =>
+          item.cartKey === cartKey
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+
+        // Also add a cup when adding a drink (not when adding a cup itself)
+        if (product.id !== 'cup') {
+          const cupKey = 'cup';
+          const existingCup = updatedCart.find(item => item.cartKey === cupKey);
+          if (existingCup) {
+            return updatedCart.map(item =>
+              item.cartKey === cupKey
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            );
+          } else {
+            return [...updatedCart, {
+              id: 'cup',
+              cartKey: cupKey,
+              name: 'Kelímek',
+              price: cupDeposit,
+              quantity: 1,
+              isReturn: false
+            }];
+          }
+        }
+
+        return updatedCart;
+      });
     } else {
-      setCart([...cart, {
-        id: product.id,
-        cartKey: cartKey,
-        name: product.name,
-        price: product.price,
-        quantity: 1,
-        isReturn: false
-      }]);
+      setCart(prevCart => {
+        const newCart = [...prevCart, {
+          id: product.id,
+          cartKey: cartKey,
+          name: product.name,
+          price: product.price,
+          quantity: 1,
+          isReturn: false
+        }];
+
+        // Also add a cup when adding a drink (not when adding a cup itself)
+        if (product.id !== 'cup') {
+          const cupKey = 'cup';
+          const existingCup = newCart.find(item => item.cartKey === cupKey);
+          if (existingCup) {
+            return newCart.map(item =>
+              item.cartKey === cupKey
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+            );
+          } else {
+            return [...newCart, {
+              id: 'cup',
+              cartKey: cupKey,
+              name: 'Kelímek',
+              price: cupDeposit,
+              quantity: 1,
+              isReturn: false
+            }];
+          }
+        }
+
+        return newCart;
+      });
     }
   };
 
@@ -45,7 +97,7 @@ export const useCart = () => {
       setCart([...cart, {
         id: 'return',
         cartKey: cartKey,
-        name: 'Cup Return',
+        name: 'Vrácení kelímku',
         price: -cupDeposit,
         quantity: 1,
         isReturn: true
@@ -66,7 +118,7 @@ export const useCart = () => {
   };
 
   const getTotal = () => {
-    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(0);
   };
 
   const loadCartFromOrder = (order) => {

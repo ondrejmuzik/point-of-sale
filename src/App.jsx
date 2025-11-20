@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useOrders } from './hooks/useOrders';
 import { useCart } from './hooks/useCart';
+import { useWakeLock } from './hooks/useWakeLock';
 import Header from './components/Header';
 import TabNavigation from './components/TabNavigation';
 import POSView from './components/POSView';
@@ -14,6 +15,9 @@ const BeveragePOS = () => {
   const [confirmAction, setConfirmAction] = useState(null);
   const [editingOrder, setEditingOrder] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
+
+  // Keep screen awake on mobile devices
+  useWakeLock();
 
   const {
     orders,
@@ -112,7 +116,7 @@ const BeveragePOS = () => {
   };
 
   return (
-    <div className="app has-background-warning-light" style={{ minHeight: '100vh' }}>
+    <div className="app has-background-light" style={{ minHeight: '100vh' }}>
       <Header />
 
       <TabNavigation

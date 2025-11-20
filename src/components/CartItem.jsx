@@ -1,54 +1,19 @@
-import React from 'react';
-
 const CartItem = ({ item, onUpdateQuantity }) => {
   return (
-    <div className={`box cart-item ${item.isReturn ? 'has-background-danger-light' : ''}`}>
-      <div className="level is-mobile">
-        <div className="level-left">
-          <div className="level-item">
-            <div>
-              <p className="has-text-weight-semibold is-size-5">{item.name}</p>
-              <p className="has-text-grey">${item.price.toFixed(2)} each</p>
-            </div>
-          </div>
+    <div className={`order-summary__item ${item.isReturn ? 'order-summary__item--return' : ''}`}>
+      <div className="order-summary__item-details">
+        <span className="order-summary__item-name">{item.name}</span>
+        <div className="order-summary__item-quantity">
+          <span>x{item.quantity}</span>
         </div>
-        <div className="level-right">
-          <div className="level-item">
-            <div className="field has-addons">
-              <p className="control">
-                <button
-                  onClick={() => onUpdateQuantity(item.cartKey, -1)}
-                  className="button"
-                >
-                  ➖
-                </button>
-              </p>
-              <p className="control">
-                <input
-                  className="input has-text-centered"
-                  type="text"
-                  value={item.quantity}
-                  readOnly
-                  style={{ width: '60px' }}
-                />
-              </p>
-              <p className="control">
-                <button
-                  onClick={() => onUpdateQuantity(item.cartKey, 1)}
-                  className="button"
-                >
-                  ➕
-                </button>
-              </p>
-            </div>
-          </div>
-          <div className="level-item">
-            <p className="has-text-weight-bold is-size-5">
-              ${(item.price * item.quantity).toFixed(2)}
-            </p>
-          </div>
-        </div>
+        <span className="order-summary__item-price">{(item.price * item.quantity).toFixed(0)},-</span>
       </div>
+      <button
+        onClick={() => onUpdateQuantity(item.cartKey, -item.quantity)}
+        className="order-summary__item-remove"
+      >
+        ✕
+      </button>
     </div>
   );
 };
