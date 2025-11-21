@@ -12,7 +12,7 @@ const PendingOrderCard = ({
   const readyCount = order.items.filter(item => item.ready).length;
 
   return (
-    <article className="box order-card has-background-danger-light">
+    <article className="box order-card has-background-text-light">
       <header className="level is-mobile mb-4">
         <div className="level-left">
           <div className="level-item">
@@ -42,7 +42,7 @@ const PendingOrderCard = ({
             }`}
           >
             <span>
-              {item.ready && <span className="mr-2">✅</span>}
+              {item.ready && <span className="mr-2">✓</span>}
               {item.name}
             </span>
             <span className="has-text-weight-bold">{item.price.toFixed(0)},-</span>
@@ -53,7 +53,7 @@ const PendingOrderCard = ({
       <div className="buttons mb-3">
         <button
           onClick={() => onMarkAllReady(order.id)}
-          className="button is-danger"
+          className="button is-success"
         >
           Označit vše za vydané
         </button>
@@ -71,16 +71,13 @@ const PendingOrderCard = ({
           className={`button is-large ${allReady ? 'is-success' : 'is-warning'}`}
           style={{ flex: 1 }}
         >
-          <span className="icon mr-2">
-            <span>✅</span>
-          </span>
-          <span>{allReady ? 'Uzavřít objednávku' : 'Uzavřít objednávku'}</span>
+          <span>Uzavřít<span className="is-hidden-mobile"> objednávku</span></span>
         </button>
         <button
           onClick={() => onDelete(order)}
-          className="button is-danger is-large"
+          className="button is-danger is-large has-text-white"
         >
-          🗑️
+          &times;️
         </button>
       </div>
     </article>

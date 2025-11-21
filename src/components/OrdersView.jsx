@@ -16,7 +16,7 @@ const OrdersView = ({
     <section className="section">
       <div className="container">
         <div className="mb-6">
-          <h2 className="title is-3 has-text-danger">Objednávky k vyřízení</h2>
+          <h2 className="title is-3">Objednávky k vyřízení</h2>
           {pendingOrders.length === 0 ? (
             <div className="notification is-light">
               <p className="has-text-centered has-text-grey is-size-5">Žádné objednávky</p>
