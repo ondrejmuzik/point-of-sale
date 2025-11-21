@@ -243,7 +243,7 @@
   }
 
   .product-card {
-    min-height: 140px;
+    min-height: 100px;
   }
 
   .product-card__icon {
@@ -254,6 +254,29 @@
 /* ============================================
    HEADER CUSTOMIZATION
    ============================================ */
+
+.header .title {
+  position: relative;
+}
+.header .title:before {
+  content: '';
+  position: absolute;
+  top: -2rem;
+  left: -3rem;
+  width: 3rem;
+  height: 3rem;
+  background: url('assets/horn-left.svg') no-repeat center center / contain;
+}
+.header .title:after {
+  content: '';
+  position: absolute;
+  top: -2rem;
+  right: -3rem;
+  width: 3rem;
+  height: 3rem;
+  background: url('assets/horn-right.svg') no-repeat center center / contain;
+}
+
 .hero.is-danger {
   background: linear-gradient(135deg, #c85a54 0%, #b84a44 100%);
 }

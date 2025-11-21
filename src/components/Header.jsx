@@ -8,13 +8,7 @@ const Header = () => {
     <header className="hero header">
       <div className="hero-body">
         <div className="container has-text-centered">
-          <span className="icon is-large mr-3">
-            <img src={hornLeft} />
-          </span>
-          <h1 className="title is-1 is-inline-block has-text-white">Čertovský svařáček 2025</h1>
-          <span className="icon is-large mr-3">
-            <img src={hornRight} />
-          </span>
+          <h1 className="title is-inline-block has-text-white">Čertovský svařáček 2025</h1>
         </div>
       </div>
     </header>
