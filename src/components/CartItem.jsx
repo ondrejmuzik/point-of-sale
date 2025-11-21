@@ -1,6 +1,12 @@
 const CartItem = ({ item, onUpdateQuantity }) => {
+  const getItemClass = () => {
+    if (item.isReturn) return 'order-summary__item--return';
+    if (item.id === 'cup') return 'order-summary__item--cup';
+    return '';
+  };
+
   return (
-    <div className={`order-summary__item ${item.isReturn ? 'order-summary__item--return' : ''}`}>
+    <div className={`order-summary__item ${getItemClass()}`}>
       <div className="order-summary__item-details">
         <span className="order-summary__item-name">{item.name}</span>
         <div className="order-summary__item-quantity">

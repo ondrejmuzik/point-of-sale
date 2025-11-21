@@ -187,10 +187,12 @@
   color: #a84840;
 }
 
-.order-summary__item--return .order-summary__item-name,
-.order-summary__item--return .order-summary__item-price,
-.order-summary__item--return .order-summary__item-quantity {
+.order-summary__item--return .order-summary__item-name {
   color: #f00;
+}
+
+.order-summary__item--cup .order-summary__item-name {
+  color: #888;
 }
 
 .order-summary__total-amount--negative {
@@ -282,4 +284,103 @@
 
 .button.is-danger:hover {
   background-color: #b84a44;
+}
+
+/* ============================================
+   FIXED CART SUMMARY
+   ============================================ */
+.cart-summary-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #c85a54 0%, #b84a44 100%);
+  color: white;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 1rem 1.5rem;
+}
+
+.cart-summary-fixed__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.cart-summary-fixed__total {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cart-summary-fixed__total:hover {
+  transform: scale(1.05);
+}
+
+.cart-summary-fixed__total:active {
+  transform: scale(0.95);
+}
+
+.cart-summary-fixed__label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.cart-summary-fixed__amount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.cart-summary-fixed__amount--negative {
+  background: rgba(255, 255, 255, 0.3);
+  color: #ffeb3b;
+}
+
+.cart-summary-fixed__pay-button {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #c85a54 !important;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.cart-summary-fixed__pay-button:hover {
+  background: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 768px) {
+  .cart-summary-fixed {
+    padding: 0.75rem 1rem;
+  }
+
+  .cart-summary-fixed__content {
+    gap: 1rem;
+  }
+
+  .cart-summary-fixed__label {
+    font-size: 0.95rem;
+  }
+
+  .cart-summary-fixed__amount {
+    font-size: 1.4rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .cart-summary-fixed__pay-button {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+  }
 }

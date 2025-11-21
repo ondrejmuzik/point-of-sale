@@ -37,6 +37,15 @@ const POSView = ({
   };
 
   const sortedCart = getSortedCart();
+
+  // Scroll to cart section
+  const scrollToCart = () => {
+    const cartElement = document.querySelector('.order-summary');
+    if (cartElement) {
+      cartElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <section className="section pos-view-modern">
       <div className="container">
@@ -138,6 +147,26 @@ const POSView = ({
           </div>
         </div>
       </div>
+
+      {/* Fixed Cart Summary at Bottom */}
+      {cart.length > 0 && (
+        <div className="cart-summary-fixed">
+          <div className="cart-summary-fixed__content">
+            <div className="cart-summary-fixed__total" onClick={scrollToCart}>
+              <span className="cart-summary-fixed__label">Celkem:</span>
+              <span className={`cart-summary-fixed__amount ${parseFloat(getTotal()) < 0 ? 'cart-summary-fixed__amount--negative' : ''}`}>
+                {getTotal()},-
+              </span>
+            </div>
+            <button
+              onClick={onCompleteOrder}
+              className="button is-danger is-large is-rounded cart-summary-fixed__pay-button has-text-white"
+            >
+              {editingOrder ? 'Uložit změny' : 'Dokončit'}
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
