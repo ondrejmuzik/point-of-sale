@@ -3,12 +3,12 @@
 ## Future Features
 
 ### 🔲 QR Codes for Payments
-- [ ] Research and choose QR code format (Czech QR platba/SPAYD, EPC QR, etc.)
-- [ ] Implement QR code generation library
-- [ ] Add payment configuration (bank account, IBAN, etc.)
-- [ ] Display QR code in POS view (modal or fixed display)
-- [ ] Include order number as variable symbol
-- [ ] Test QR code scanning with banking apps
+- [x] Research and choose QR code format (Czech QR platba/SPAYD, EPC QR, etc.)
+- [x] Implement QR code generation library
+- [x] Add payment configuration (bank account, IBAN, etc.)
+- [x] Display QR code in POS view (modal or fixed display)
+- [x] Include order number as variable symbol
+- [x] Test QR code scanning with banking apps
 
 ### 🔲 Czech Language and Currency Consistency
 - [x] Review all text strings in the app for Czech language
