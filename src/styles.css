@@ -306,6 +306,9 @@
 .button.is-danger:hover {
   background-color: #b84a44;
 }
+button.delete {
+  padding: 1rem;
+}
 
 /* ============================================
    ORDER LIST ITEMS
