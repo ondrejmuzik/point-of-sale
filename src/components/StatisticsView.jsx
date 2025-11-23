@@ -2,9 +2,8 @@ import { products } from '../constants/products';
 
 const StatisticsView = ({ orders }) => {
   const calculateStats = () => {
-    const allCompletedOrders = orders.filter(o => o.completed);
-
-    const totalRevenue = allCompletedOrders.reduce((sum, order) => {
+    // Count all orders (both pending and completed)
+    const totalRevenue = orders.reduce((sum, order) => {
       const orderRevenue = order.items
         .filter(item => item.id !== 'cup')
         .reduce((itemSum, item) => itemSum + item.price, 0);
@@ -16,7 +15,7 @@ const StatisticsView = ({ orders }) => {
       itemsSold[product.name] = 0;
     });
 
-    allCompletedOrders.forEach(order => {
+    orders.forEach(order => {
       order.items.forEach(item => {
         if (itemsSold.hasOwnProperty(item.name)) {
           itemsSold[item.name] += 1;
@@ -29,7 +28,7 @@ const StatisticsView = ({ orders }) => {
       revenuePerItem[product.name] = 0;
     });
 
-    allCompletedOrders.forEach(order => {
+    orders.forEach(order => {
       order.items.forEach(item => {
         if (revenuePerItem.hasOwnProperty(item.name)) {
           revenuePerItem[item.name] += item.price;
@@ -39,7 +38,7 @@ const StatisticsView = ({ orders }) => {
 
     return {
       totalRevenue,
-      totalOrders: allCompletedOrders.length,
+      totalOrders: orders.length,
       itemsSold,
       revenuePerItem,
       totalItemsSold: Object.values(itemsSold).reduce((sum, count) => sum + count, 0)
@@ -61,7 +60,7 @@ const StatisticsView = ({ orders }) => {
 
           <div className="column">
             <div className="box has-text-centered">
-              <p className="heading">Vyřízené objednávky</p>
+              <p className="heading">Objednávky</p>
               <p className="title is-1 has-text-danger">{stats.totalOrders}</p>
             </div>
           </div>
@@ -144,8 +143,8 @@ const StatisticsView = ({ orders }) => {
 
         {stats.totalOrders === 0 && (
           <div className="notification is-warning mt-5">
-            <p className="has-text-weight-semibold">Zatím žádné vyřízené objednávky</p>
-            <p>Statistiky se zobrazí po vyřízení objednávek.</p>
+            <p className="has-text-weight-semibold">Zatím žádné objednávky</p>
+            <p>Statistiky se zobrazí po vytvoření objednávek.</p>
           </div>
         )}
       </div>
