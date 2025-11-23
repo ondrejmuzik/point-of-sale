@@ -100,19 +100,27 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
         ))}
       </div>
 
-      <div className="buttons">
-        <button
-          onClick={() => onReopen(order.id)}
-          className="button is-light"
-        >
-          Znovu otevřít
-        </button>
-        <button
-          onClick={() => onDelete(order)}
-          className="button is-danger has-text-white"
-        >
-          &times;
-        </button>
+      <div className="level is-mobile">
+        <div className="level-left">
+          <div className="level-item">
+            <button
+              onClick={() => onReopen(order.id)}
+              className="button is-light"
+            >
+              Znovu otevřít
+            </button>
+          </div>
+        </div>
+        <div className="level-right">
+          <div className="level-item">
+            <button
+              onClick={() => onDelete(order)}
+              className="button is-danger has-text-white"
+            >
+              &times;
+            </button>
+          </div>
+        </div>
       </div>
     </article>
   );

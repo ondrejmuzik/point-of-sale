@@ -69,7 +69,7 @@ const PendingOrderCard = ({
   const sortedAndGroupedItems = getSortedAndGroupedItems();
 
   return (
-    <article className="box order-card has-background-text-light">
+    <article className="box order-card has-background-warning-light">
       <h3 className="title is-4 mb-4" style={{ color: '#b53839' }}>Objednávka #{order.orderNumber}</h3>
       <header className="level is-mobile mb-4">
         <div className="level-left">
@@ -110,19 +110,27 @@ const PendingOrderCard = ({
         </button>
       </div>
 
-      <div className="buttons">
-        <button
-          onClick={() => onEdit(order)}
-          className="button is-warning is-light"
-        >
-          Upravit objednávku
-        </button>
-        <button
-          onClick={() => onDelete(order)}
-          className="button is-danger has-text-white"
-        >
-          &times;️
-        </button>
+      <div className="level is-mobile">
+        <div className="level-left">
+          <div className="level-item">
+            <button
+              onClick={() => onEdit(order)}
+              className="button is-info is-light"
+            >
+              Upravit objednávku
+            </button>
+          </div>
+        </div>
+        <div className="level-right">
+          <div className="level-item">
+            <button
+              onClick={() => onDelete(order)}
+              className="button is-danger has-text-white"
+            >
+              &times;️
+            </button>
+          </div>
+        </div>
       </div>
 
     </article>
