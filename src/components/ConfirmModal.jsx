@@ -7,9 +7,6 @@ const ConfirmModal = ({ message, onCancel, onConfirm }) => {
       <div className="modal-card">
         <header className="modal-card-head has-background-warning">
           <p className="modal-card-title">
-            <span className="icon is-large mr-2">
-              <span style={{ fontSize: '1.5rem' }}>⚠️</span>
-            </span>
             Potvrzení
           </p>
           <button className="delete" aria-label="close" onClick={onCancel}></button>
@@ -17,8 +14,8 @@ const ConfirmModal = ({ message, onCancel, onConfirm }) => {
         <section className="modal-card-body">
           <p className="is-size-5">{message}</p>
         </section>
-        <footer className="modal-card-foot">
-          <button onClick={onConfirm} className="button is-danger">Potvrdit</button>
+        <footer className="buttons modal-card-foot">
+          <button onClick={onConfirm} className="button is-danger has-text-white">Potvrdit</button>
           <button onClick={onCancel} className="button">Zpět</button>
         </footer>
       </div>

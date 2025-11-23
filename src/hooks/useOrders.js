@@ -95,36 +95,6 @@ export const useOrders = () => {
     await saveOrders(updatedOrders);
   };
 
-  const toggleItemReady = async (orderId, itemId) => {
-    const newOrders = orders.map(order => {
-      if (order.id === orderId) {
-        return {
-          ...order,
-          items: order.items.map(item =>
-            item.itemId === itemId
-              ? { ...item, ready: !item.ready }
-              : item
-          )
-        };
-      }
-      return order;
-    });
-    await saveOrders(newOrders);
-  };
-
-  const markAllItemsReady = async (orderId) => {
-    const newOrders = orders.map(order => {
-      if (order.id === orderId) {
-        return {
-          ...order,
-          items: order.items.map(item => ({ ...item, ready: true }))
-        };
-      }
-      return order;
-    });
-    await saveOrders(newOrders);
-  };
-
   const toggleOrderComplete = async (orderId) => {
     const newOrders = orders.map(order =>
       order.id === orderId
@@ -149,8 +119,6 @@ export const useOrders = () => {
     completedOrders,
     addOrder,
     updateOrder,
-    toggleItemReady,
-    markAllItemsReady,
     toggleOrderComplete,
     deleteOrder
   };

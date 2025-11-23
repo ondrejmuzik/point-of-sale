@@ -5,8 +5,6 @@ import CompletedOrderCard from './CompletedOrderCard';
 const OrdersView = ({
   pendingOrders,
   completedOrders,
-  onToggleItemReady,
-  onMarkAllReady,
   onEditOrder,
   onCompleteOrder,
   onReopenOrder,
@@ -27,8 +25,6 @@ const OrdersView = ({
                 <PendingOrderCard
                   key={order.id}
                   order={order}
-                  onToggleItemReady={onToggleItemReady}
-                  onMarkAllReady={onMarkAllReady}
                   onEdit={onEditOrder}
                   onComplete={onCompleteOrder}
                   onDelete={onDeleteOrder}

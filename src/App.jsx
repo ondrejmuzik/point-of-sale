@@ -26,8 +26,6 @@ const BeveragePOS = () => {
     completedOrders,
     addOrder,
     updateOrder,
-    toggleItemReady,
-    markAllItemsReady,
     toggleOrderComplete,
     deleteOrder
   } = useOrders();
@@ -46,7 +44,7 @@ const BeveragePOS = () => {
   const requestClearCart = () => {
     setConfirmAction({
       type: 'clearCart',
-      message: 'Are you sure you want to clear the current order?',
+      message: 'Opravdu chcete smazat aktuální objednávku?',
       onConfirm: () => {
         clearCart();
         setConfirmAction(null);
@@ -69,34 +67,14 @@ const BeveragePOS = () => {
     setTimeout(() => setShowSuccess(false), 2000);
   };
 
-  const requestCompleteOrder = (order) => {
-    const allReady = order.items.every(item => item.ready);
-
-    if (!allReady) {
-      setConfirmAction({
-        type: 'completeOrderNotReady',
-        message: 'Not all items are marked as ready. Complete the order anyway?',
-        onConfirm: async () => {
-          await toggleOrderComplete(order.id);
-          setConfirmAction(null);
-        }
-      });
-    } else {
-      setConfirmAction({
-        type: 'completeOrder',
-        message: `Mark Order #${order.orderNumber} as complete?`,
-        onConfirm: async () => {
-          await toggleOrderComplete(order.id);
-          setConfirmAction(null);
-        }
-      });
-    }
+  const requestCompleteOrder = async (order) => {
+    await toggleOrderComplete(order.id);
   };
 
   const requestDeleteOrder = (order) => {
     setConfirmAction({
       type: 'deleteOrder',
-      message: `Delete Order #${order.orderNumber}? This cannot be undone.`,
+      message: `Smazat objednávku #${order.orderNumber}? Toto je nevratná operace.`,
       onConfirm: async () => {
         await deleteOrder(order.id);
         setConfirmAction(null);
@@ -135,7 +113,7 @@ const BeveragePOS = () => {
 
       {showSuccess && (
         <SuccessMessage
-          message={`Order ${editingOrder ? 'Updated' : 'Placed'}!`}
+          message={editingOrder ? 'Objednávka upravena!' : 'Objednávka vytvořena!'}
         />
       )}
 
@@ -159,8 +137,6 @@ const BeveragePOS = () => {
         <OrdersView
           pendingOrders={pendingOrders}
           completedOrders={completedOrders}
-          onToggleItemReady={toggleItemReady}
-          onMarkAllReady={markAllItemsReady}
           onEditOrder={editOrder}
           onCompleteOrder={requestCompleteOrder}
           onReopenOrder={toggleOrderComplete}
