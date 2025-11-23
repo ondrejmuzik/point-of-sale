@@ -1,4 +1,3 @@
-import React from 'react';
 import { products } from '../constants/products';
 
 const StatisticsView = ({ orders }) => {
@@ -55,28 +54,28 @@ const StatisticsView = ({ orders }) => {
         <div className="columns mb-5">
           <div className="column">
             <div className="box has-text-centered">
-              <p className="heading">Total Revenue</p>
-              <p className="title is-1 has-text-success">${stats.totalRevenue.toFixed(2)}</p>
+              <p className="heading">Celkový obrat</p>
+              <p className="title is-1 has-text-success">{stats.totalRevenue.toFixed(0)},-</p>
             </div>
           </div>
 
           <div className="column">
             <div className="box has-text-centered">
-              <p className="heading">Completed Orders</p>
+              <p className="heading">Vyřízené objednávky</p>
               <p className="title is-1 has-text-danger">{stats.totalOrders}</p>
             </div>
           </div>
 
           <div className="column">
             <div className="box has-text-centered">
-              <p className="heading">Items Sold</p>
+              <p className="heading">Prodané položky</p>
               <p className="title is-1 has-text-info">{stats.totalItemsSold}</p>
             </div>
           </div>
         </div>
 
         <div className="box mb-5">
-          <h2 className="title is-3 mb-4">Sales by Item</h2>
+          <h2 className="title is-3 mb-4">Prodeje podle položek</h2>
           <div className="product-stats">
             {products.map(product => {
               const count = stats.itemsSold[product.name];
@@ -102,13 +101,13 @@ const StatisticsView = ({ orders }) => {
 
                   <div className="columns">
                     <div className="column">
-                      <p className="has-text-grey">Units sold:</p>
+                      <p className="has-text-grey">Prodané kusy:</p>
                       <p className="title is-4">{count}</p>
                     </div>
 
                     <div className="column">
-                      <p className="has-text-grey">Revenue:</p>
-                      <p className="title is-4 has-text-success">${revenue.toFixed(2)}</p>
+                      <p className="has-text-grey">Obrat:</p>
+                      <p className="title is-4 has-text-success">{revenue.toFixed(0)},-</p>
                     </div>
                   </div>
 
@@ -126,16 +125,16 @@ const StatisticsView = ({ orders }) => {
         </div>
 
         <div className="box">
-          <h2 className="title is-3 mb-4">Additional Metrics</h2>
+          <h2 className="title is-3 mb-4">Další statistiky</h2>
           <div className="columns">
             <div className="column">
-              <p className="has-text-grey mb-2">Average Order Value</p>
+              <p className="has-text-grey mb-2">Průměrná hodnota objednávky</p>
               <p className="title is-2">
-                ${stats.totalOrders > 0 ? (stats.totalRevenue / stats.totalOrders).toFixed(2) : '0.00'}
+                {stats.totalOrders > 0 ? (stats.totalRevenue / stats.totalOrders).toFixed(0) : '0'},-
               </p>
             </div>
             <div className="column">
-              <p className="has-text-grey mb-2">Avg Items per Order</p>
+              <p className="has-text-grey mb-2">Průměr položek na objednávku</p>
               <p className="title is-2">
                 {stats.totalOrders > 0 ? (stats.totalItemsSold / stats.totalOrders).toFixed(1) : '0'}
               </p>
@@ -145,8 +144,8 @@ const StatisticsView = ({ orders }) => {
 
         {stats.totalOrders === 0 && (
           <div className="notification is-warning mt-5">
-            <p className="has-text-weight-semibold">No completed orders yet</p>
-            <p>Statistics will appear here once you complete some orders.</p>
+            <p className="has-text-weight-semibold">Zatím žádné vyřízené objednávky</p>
+            <p>Statistiky se zobrazí po vyřízení objednávek.</p>
           </div>
         )}
       </div>

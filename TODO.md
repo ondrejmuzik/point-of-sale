@@ -11,12 +11,11 @@
 - [ ] Test QR code scanning with banking apps
 
 ### 🔲 Czech Language and Currency Consistency
-- [ ] Review all text strings in the app for Czech language
-- [ ] Ensure all user-facing text is in Czech
-- [ ] Verify all currency values are in Czech Crown (CZK)
-- [ ] Check formatting of prices (e.g., "100,-" format)
-- [ ] Review date/time formatting for Czech locale
-- [ ] Fix any remaining English text or placeholders
+- [x] Review all text strings in the app for Czech language
+- [x] Ensure all user-facing text is in Czech
+- [x] Verify all currency values are in Czech Crown (CZK)
+- [x] Check formatting of prices (e.g., "100,-" format)
+- [x] Fix any remaining English text or placeholders
 
 ### 🔲 Deployment via Netlify
 - [ ] Create Netlify account
