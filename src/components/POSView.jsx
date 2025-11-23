@@ -4,6 +4,7 @@ import ProductButton from './ProductButton';
 import CartItem from './CartItem';
 import cupIcon from '../assets/cup.svg';
 import cupReturnIcon from '../assets/cup-return.svg';
+import qrCodeIcon from '../assets/qr-code.svg';
 
 const POSView = ({
   orderNumber,
@@ -16,6 +17,7 @@ const POSView = ({
   onClearCart,
   onCancelEdit,
   onCompleteOrder,
+  onShowQRCode,
   getTotal
 }) => {
   // Sort cart items based on product grid order
@@ -111,12 +113,22 @@ const POSView = ({
                       <span className={`order-summary__total-amount ${parseFloat(getTotal()) < 0 ? 'order-summary__total-amount--negative' : ''}`}>{getTotal()},-</span>
                     </div>
 
-                    <button
-                      onClick={onCompleteOrder}
-                      className="button is-danger is-large is-fullwidth is-rounded order-summary__pay-button has-text-white"
-                    >
-                      {editingOrder ? 'Uložit změny' : 'Dokončit'}
-                    </button>
+                    <div className="buttons">
+                      <button
+                        onClick={onShowQRCode}
+                        className="button is-success is-large is-fullwidth is-rounded"
+                        disabled={parseFloat(getTotal()) <= 0}
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+                      >
+                        <img src={qrCodeIcon} alt="QR platba" style={{ width: '32px', height: '32px' }} />
+                      </button>
+                      <button
+                        onClick={onCompleteOrder}
+                        className="button is-danger is-large is-fullwidth is-rounded order-summary__pay-button has-text-white"
+                      >
+                        {editingOrder ? 'Uložit změny' : 'Dokončit'}
+                      </button>
+                    </div>
 
                     <div className="buttons mt-3">
                       <button
@@ -162,7 +174,7 @@ const POSView = ({
               onClick={onCompleteOrder}
               className="button is-danger is-large is-rounded cart-summary-fixed__pay-button has-text-white"
             >
-              {editingOrder ? 'Uložit změny' : 'Dokončit'}
+              {editingOrder ? 'Uložit' : 'Dokončit'}
             </button>
           </div>
         </div>

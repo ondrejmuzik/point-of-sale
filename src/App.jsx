@@ -9,12 +9,14 @@ import OrdersView from './components/OrdersView';
 import StatisticsView from './components/StatisticsView';
 import ConfirmModal from './components/ConfirmModal';
 import SuccessMessage from './components/SuccessMessage';
+import PaymentQRCode from './components/PaymentQRCode';
 
 const BeveragePOS = () => {
   const [activeTab, setActiveTab] = useState('pos');
   const [confirmAction, setConfirmAction] = useState(null);
   const [editingOrder, setEditingOrder] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showQRCode, setShowQRCode] = useState(false);
 
   // Keep screen awake on mobile devices
   useWakeLock();
@@ -117,6 +119,14 @@ const BeveragePOS = () => {
         />
       )}
 
+      {showQRCode && (
+        <PaymentQRCode
+          amount={parseFloat(getTotal())}
+          orderNumber={orderNumber}
+          onClose={() => setShowQRCode(false)}
+        />
+      )}
+
       {activeTab === 'pos' && (
         <POSView
           orderNumber={orderNumber}
@@ -129,6 +139,7 @@ const BeveragePOS = () => {
           onClearCart={requestClearCart}
           onCancelEdit={cancelEdit}
           onCompleteOrder={completeOrder}
+          onShowQRCode={() => setShowQRCode(true)}
           getTotal={getTotal}
         />
       )}

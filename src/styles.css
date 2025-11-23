@@ -221,10 +221,8 @@
 }
 
 .order-summary__pay-button {
-  font-size: 1.25rem;
   font-weight: 700;
   padding: 1.5rem;
-  margin-top: 1rem;
 }
 
 .order-summary__empty {
