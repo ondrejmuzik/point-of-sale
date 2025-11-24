@@ -1,5 +1,5 @@
 import React from 'react';
-import { products } from '../constants/products';
+import { products } from '../../constants/products';
 
 const PendingOrderCard = ({
   order,
