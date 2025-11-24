@@ -18,8 +18,8 @@
 - [x] Fix any remaining English text or placeholders
 
 ### 🔲 Deployment via Netlify
-- [ ] Create Netlify account
-- [ ] Configure build settings for Vite/React
+- [x] Create Netlify account
+- [x] Configure build settings for Vite/React
 - [ ] Set up continuous deployment from Git repository
 - [ ] Configure custom domain (if needed)
 - [ ] Set up environment variables
@@ -52,14 +52,7 @@
 
 ## Nice-to-Have Features
 
-- [ ] Print receipts
-- [ ] Email/SMS order notifications
 - [ ] Advanced statistics and reporting
-- [ ] Multi-device sync
-- [ ] Product inventory tracking
-- [ ] Customer loyalty program
-- [ ] Multiple payment methods tracking
-- [ ] Tax reporting
 
 ---
 
