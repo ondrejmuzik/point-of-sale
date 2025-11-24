@@ -253,6 +253,32 @@
    HEADER CUSTOMIZATION
    ============================================ */
 
+.header {
+  position: relative;
+  background: #b53839;
+}
+@media screen and (max-width: 768px) {
+  .header .hero-body {
+    padding: 1.5rem;
+    scale: .7;
+  }
+}
+.header .container:before {
+  content: '';
+  position: absolute;
+  left: 51%;
+  bottom: -2rem;
+  width: 6rem;
+  height: 1.5rem;
+  background: url('assets/tail.svg') no-repeat center center / contain;
+  transform: scaleX(1.5);
+  overflow: hidden;
+}
+@media screen and (max-width: 768px) {
+  .header .container:before {
+    left: 55%;
+  }
+}
 .header .title {
   position: relative;
 }
@@ -275,9 +301,6 @@
   background: url('assets/horn-right.svg') no-repeat center center / contain;
 }
 
-.hero.is-danger {
-  background: linear-gradient(135deg, #c85a54 0%, #b84a44 100%);
-}
 
 /* ============================================
    TABS CUSTOMIZATION

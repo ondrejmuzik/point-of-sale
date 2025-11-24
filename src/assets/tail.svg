@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="7.3694754mm"
+   height="1.8954302mm"
+   viewBox="0 0 7.3694754 1.8954302"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   sodipodi:docname="tail.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="10.426904"
+     inkscape:cx="14.337909"
+     inkscape:cy="14.098145"
+     inkscape:window-width="3008"
+     inkscape:window-height="1639"
+     inkscape:window-x="1512"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-103.98125,-130.4396)">
+    <g
+       id="g3"
+       transform="matrix(-0.00505717,0.00129872,0.00176448,0.0044313,111.26609,121.6478)"
+       style="fill:#ffffff">
+      <path
+         id="path7"
+         d="m 5559.37,6153.6 c 0,0 0,0 -347.25,493.8 0,0 -299.3,-747.1 -114.96,-1616.1 0,0 445.57,632.4 1118.35,914.2 l -656.14,208.1"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         transform="matrix(0.13333333,0,0,-0.13333333,0,2666.6667)" />
+      <path
+         id="path8"
+         d="M 14605.3,9095.4 C 14542.9,8208.7 13388.6,5818.7 9797.95,6612.8 8401.47,6921.6 7499.47,7286.2 6418.6,6888.7 5956.46,6718.8 5304.13,6108.8 5138.14,5632.5 c 45.85,-15.7 91.69,-31.4 137.53,-47.1 8.95,-3.1 42.36,-21.1 50.84,-17.4 12.25,5.2 33.2,75.5 40.58,90 41.52,81.4 91.27,159 155.86,223.7 905.65,907 1655.65,1067 3765.65,257 1597.3,-613.1 3478.3,-853.6 4513.7,-4.7 370.2,303.5 675.8,744.7 819.6,1241.4 187.9,648.7 138.2,1365.1 -16.6,1720"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         transform="matrix(0.13333333,0,0,-0.13333333,0,2666.6667)" />
+    </g>
+  </g>
+</svg>
