@@ -70,7 +70,7 @@ const PendingOrderCard = ({
 
   return (
     <article className="box order-card has-background-warning-light">
-      <h3 className="title is-4 mb-4" style={{ color: '#b53839' }}>Objednávka #{order.orderNumber}</h3>
+      <h3 className="title is-4 mb-4" style={{ color: '#b53839' }}>Objednávka #{order.order_number}</h3>
       <header className="level is-mobile mb-4">
         <div className="level-left">
           <div className="level-item">

@@ -66,7 +66,7 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
         <div className="level-left">
           <div className="level-item">
             <div>
-              <h3 className="title is-5 has-text-grey">Objednávka #{order.orderNumber}</h3>
+              <h3 className="title is-5 has-text-grey">Objednávka #{order.order_number}</h3>
               <p className="subtitle is-6 has-text-grey-light">{order.timestamp}</p>
             </div>
           </div>
