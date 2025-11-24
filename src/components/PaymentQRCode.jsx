@@ -40,7 +40,7 @@ const PaymentQRCode = ({ amount, orderNumber, onClose }) => {
           <button className="delete" aria-label="close" onClick={onClose}></button>
         </header>
 
-        <section className="modal-card-body has-text-centered">
+        <section className="modal-card-body has-text-centered" style={{ padding: '2rem 0' }}>
           <div className="mb-4">
             <h3 className="title is-4">Objednávka #{orderNumber}</h3>
             <p className="title is-2 has-text-success">{amount.toFixed(0)},-</p>
@@ -51,9 +51,6 @@ const PaymentQRCode = ({ amount, orderNumber, onClose }) => {
           </div>
 
           <div className="content mt-4">
-            {/* <p className="has-text-grey">
-              Naskenujte QR kód v mobilní aplikaci vaší banky pro okamžitou platbu.
-            </p> */}
             <div className="box has-background-white-ter">
               <p><strong>Částka:</strong> {amount.toFixed(0)},- Kč</p>
               <p><strong>Variabilní symbol:</strong> {orderNumber}</p>

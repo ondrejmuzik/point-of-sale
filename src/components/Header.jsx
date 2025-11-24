@@ -8,7 +8,7 @@ const Header = () => {
     <header className="hero header">
       <div className="hero-body">
         <div className="container has-text-centered">
-          <h1 className="title is-inline-block has-text-white">Čertovský svařáček 2025</h1>
+          <h1 className="title is-inline has-text-white">Čertovský svařák&nbsp;2025</h1>
         </div>
       </div>
     </header>
