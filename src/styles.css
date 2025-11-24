@@ -16,6 +16,34 @@
 }
 
 /* ============================================
+   SUCCESS MESSAGE OVERLAY
+   ============================================ */
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.success-overlay .notification {
+  animation: bounce 1s ease-in-out;
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+@media screen and (max-width: 768px) {
+  .pos-view-modern {
+    padding-top: 1rem;
+  }
+}
+
+
+/* ============================================
    NAVIGATION
    ============================================ */
 .tabs.is-boxed a {
@@ -26,6 +54,11 @@
   color: #fff;
 }
    
+@media screen and (max-width: 768px) {
+  .tabs.is-large {
+    font-size: 1.25rem;
+  }
+}
 
 /* ============================================
    PRODUCT GRID & CARDS

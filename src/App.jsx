@@ -46,7 +46,7 @@ const BeveragePOS = () => {
   const requestClearCart = () => {
     setConfirmAction({
       type: 'clearCart',
-      message: 'Opravdu chcete smazat aktuální objednávku?',
+      message: 'Opravdu chcete zrušit aktuální objednávku?',
       onConfirm: () => {
         clearCart();
         setConfirmAction(null);
