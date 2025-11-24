@@ -1,10 +1,10 @@
 import React from 'react';
-import { products, cupDeposit } from '../constants/products';
-import ProductButton from './ProductButton';
-import CartItem from './CartItem';
-import cupIcon from '../assets/cup.svg';
-import cupReturnIcon from '../assets/cup-return.svg';
-import qrCodeIcon from '../assets/qr-code.svg';
+import { products, cupDeposit } from '../../constants/products';
+import ProductButton from '../ui/ProductButton';
+import CartItem from '../ui/CartItem';
+import cupIcon from '../../assets/cup.svg';
+import cupReturnIcon from '../../assets/cup-return.svg';
+import qrCodeIcon from '../../assets/qr-code.svg';
 
 const POSView = ({
   orderNumber,

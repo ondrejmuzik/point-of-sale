@@ -1,6 +1,6 @@
 import React from 'react';
-import PendingOrderCard from './PendingOrderCard';
-import CompletedOrderCard from './CompletedOrderCard';
+import PendingOrderCard from '../ui/PendingOrderCard';
+import CompletedOrderCard from '../ui/CompletedOrderCard';
 
 const OrdersView = ({
   pendingOrders,
