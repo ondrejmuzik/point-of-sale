@@ -1,20 +1,60 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import { useStorage } from './useStorage';
 
 export const useOrders = () => {
   const [orders, setOrders] = useState([]);
   const [orderNumber, setOrderNumber] = useState(1);
+  const [loading, setLoading] = useState(true);
   const storage = useStorage();
 
   useEffect(() => {
-    loadOrders();
-    loadOrderNumber();
+    loadData();
+
+    // Subscribe to real-time changes in orders table
+    const subscription = supabase
+      .channel('orders_channel')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'orders'
+        },
+        () => {
+          // Reload orders when any change happens
+          loadOrders();
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
+  const loadData = async () => {
+    setLoading(true);
+    await Promise.all([loadOrders(), loadOrderNumber()]);
+    setLoading(false);
+  };
+
   const loadOrders = async () => {
-    const result = await storage.get('orders', true);
-    if (result) {
-      setOrders(result);
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .order('id', { ascending: true });
+
+      if (error) throw error;
+
+      if (data) {
+        setOrders(data);
+      }
+    } catch (error) {
+      console.error('Failed to load orders:', error);
+      setOrders([]);
     }
   };
 
@@ -25,88 +65,128 @@ export const useOrders = () => {
     }
   };
 
-  const saveOrders = async (newOrders) => {
-    await storage.set('orders', newOrders, true);
-    setOrders(newOrders);
-  };
-
   const saveOrderNumber = async (num) => {
-    await storage.set('orderNumber', num.toString());
+    await storage.set('orderNumber', num);
     setOrderNumber(num);
   };
 
   const addOrder = async (cart, getTotal) => {
-    const orderItems = [];
-    cart.forEach(item => {
-      if (!item.isReturn) {
-        for (let i = 0; i < item.quantity; i++) {
-          orderItems.push({
-            ...item,
-            quantity: 1,
-            ready: false,
-            itemId: `${Date.now()}-${Math.random()}-${i}`
-          });
+    try {
+      // Prepare order items
+      const orderItems = [];
+      cart.forEach(item => {
+        if (!item.isReturn) {
+          for (let i = 0; i < item.quantity; i++) {
+            orderItems.push({
+              ...item,
+              quantity: 1,
+              ready: false,
+              itemId: `${Date.now()}-${Math.random()}-${i}`
+            });
+          }
         }
-      }
-    });
+      });
 
-    const newOrder = {
-      id: Date.now(),
-      orderNumber: orderNumber,
-      items: orderItems,
-      total: getTotal(),
-      timestamp: new Date().toLocaleTimeString(),
-      completed: false
-    };
+      const newOrder = {
+        id: Date.now(),
+        order_number: orderNumber,
+        items: orderItems,
+        total: getTotal(),
+        timestamp: new Date().toLocaleTimeString(),
+        completed: false
+      };
 
-    const newOrders = [...orders, newOrder];
-    await saveOrders(newOrders);
+      // Insert into Supabase
+      const { error } = await supabase
+        .from('orders')
+        .insert([newOrder]);
 
-    const nextOrderNum = orderNumber + 1;
-    await saveOrderNumber(nextOrderNum);
+      if (error) throw error;
+
+      // Increment order number
+      const nextOrderNum = orderNumber + 1;
+      await saveOrderNumber(nextOrderNum);
+
+      // Reload orders to get updated state
+      await loadOrders();
+    } catch (error) {
+      console.error('Failed to add order:', error);
+      throw error;
+    }
   };
 
   const updateOrder = async (orderId, cart, getTotal) => {
-    const orderItems = [];
-    cart.forEach(item => {
-      if (!item.isReturn) {
-        for (let i = 0; i < item.quantity; i++) {
-          orderItems.push({
-            ...item,
-            quantity: 1,
-            ready: false,
-            itemId: `${Date.now()}-${Math.random()}-${i}`
-          });
-        }
-      }
-    });
-
-    const updatedOrders = orders.map(order =>
-      order.id === orderId
-        ? {
-            ...order,
-            items: orderItems,
-            total: getTotal(),
-            timestamp: new Date().toLocaleTimeString()
+    try {
+      // Prepare order items
+      const orderItems = [];
+      cart.forEach(item => {
+        if (!item.isReturn) {
+          for (let i = 0; i < item.quantity; i++) {
+            orderItems.push({
+              ...item,
+              quantity: 1,
+              ready: false,
+              itemId: `${Date.now()}-${Math.random()}-${i}`
+            });
           }
-        : order
-    );
+        }
+      });
 
-    await saveOrders(updatedOrders);
+      // Update in Supabase
+      const { error } = await supabase
+        .from('orders')
+        .update({
+          items: orderItems,
+          total: getTotal(),
+          timestamp: new Date().toLocaleTimeString()
+        })
+        .eq('id', orderId);
+
+      if (error) throw error;
+
+      // Reload orders to get updated state
+      await loadOrders();
+    } catch (error) {
+      console.error('Failed to update order:', error);
+      throw error;
+    }
   };
 
   const toggleOrderComplete = async (orderId) => {
-    const newOrders = orders.map(order =>
-      order.id === orderId
-        ? { ...order, completed: !order.completed }
-        : order
-    );
-    await saveOrders(newOrders);
+    try {
+      const order = orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      const { error } = await supabase
+        .from('orders')
+        .update({ completed: !order.completed })
+        .eq('id', orderId);
+
+      if (error) throw error;
+
+      // Reload orders to get updated state
+      await loadOrders();
+    } catch (error) {
+      console.error('Failed to toggle order completion:', error);
+      throw error;
+    }
   };
 
   const deleteOrder = async (orderId) => {
-    const newOrders = orders.filter(order => order.id !== orderId);
-    await saveOrders(newOrders);
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .delete()
+        .eq('id', orderId);
+
+      if (error) throw error;
+
+      // Reload orders to get updated state
+      await loadOrders();
+    } catch (error) {
+      console.error('Failed to delete order:', error);
+      throw error;
+    }
   };
 
   const pendingOrders = orders.filter(o => !o.completed);
@@ -120,6 +200,7 @@ export const useOrders = () => {
     addOrder,
     updateOrder,
     toggleOrderComplete,
-    deleteOrder
+    deleteOrder,
+    loading
   };
 };

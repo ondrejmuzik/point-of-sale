@@ -1,6 +1,6 @@
-import wineIcon from '../assets/wine.svg';
-import appleIcon from '../assets/apple.svg';
-import appleExtraIcon from '../assets/apple-devil.svg';
+import wineIcon from '../../assets/wine.svg';
+import appleIcon from '../../assets/apple.svg';
+import appleExtraIcon from '../../assets/apple-devil.svg';
 
 const ProductButton = ({ product, onClick, isClicked }) => {
   // Image mapping for products

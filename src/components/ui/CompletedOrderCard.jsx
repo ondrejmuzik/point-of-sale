@@ -1,12 +1,7 @@
 import React from 'react';
-import { products } from '../constants/products';
+import { products } from '../../constants/products';
 
-const PendingOrderCard = ({
-  order,
-  onEdit,
-  onComplete,
-  onDelete
-}) => {
+const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
   // Group beverages with cups and sort items
   const getSortedAndGroupedItems = () => {
     const items = [...order.items];
@@ -33,13 +28,10 @@ const PendingOrderCard = ({
           id: beverage.id,
           name: beverage.name,
           price: beverage.price + matchingCup.price,
-          ready: beverage.ready && matchingCup.ready,
-          isGrouped: true,
-          beverageItemId: beverage.itemId,
-          cupItemId: matchingCup.itemId
+          isGrouped: true
         });
       } else {
-        // No cup available, show beverage alone (shouldn't happen in normal use)
+        // No cup available, show beverage alone
         groupedItems.push(beverage);
       }
     });
@@ -69,55 +61,53 @@ const PendingOrderCard = ({
   const sortedAndGroupedItems = getSortedAndGroupedItems();
 
   return (
-    <article className="box order-card has-background-warning-light">
-      <h3 className="title is-4 mb-4" style={{ color: '#b53839' }}>Objednávka #{order.orderNumber}</h3>
-      <header className="level is-mobile mb-4">
+    <article className="box order-card has-background-grey-lighter" style={{ opacity: 0.8 }}>
+      <header className="level is-mobile mb-3">
         <div className="level-left">
           <div className="level-item">
             <div>
-              <p className="subtitle is-5 has-text-grey">{order.timestamp}</p>
+              <h3 className="title is-5 has-text-grey">Objednávka #{order.order_number}</h3>
+              <p className="subtitle is-6 has-text-grey-light">{order.timestamp}</p>
             </div>
           </div>
         </div>
         <div className="level-right">
           <div className="level-item">
-              <p className="title is-5">{order.total},-</p>
+            <p className="title is-4 has-text-grey">{order.total},-</p>
           </div>
         </div>
       </header>
 
-      <div className="order-items mb-4">
-        {sortedAndGroupedItems.map((item) => (
-          <div
-            key={item.itemId}
-            className="order-list-item"
-          >
-            <span style={{ fontSize: '1.1rem' }}>
-              {item.name}
-              {item.isGrouped && <span style={{ opacity: 0.6, marginLeft: '0.5rem' }}>+ Kelímek</span>}
-            </span>
+      <div className="order-items mb-3">
+        {sortedAndGroupedItems.map((item, idx) => (
+          <div key={item.itemId || idx} className="box is-size-7 py-2 px-3 mb-1 has-background-white">
+            <div className="level is-mobile">
+              <div className="level-left">
+                <div className="level-item">
+                  <span className="has-text-grey">
+                    {item.name}
+                    {item.isGrouped && <span style={{ opacity: 0.6, marginLeft: '0.5rem' }}>+ Kelímek</span>}
+                  </span>
+                </div>
+              </div>
+              <div className="level-right">
+                <div className="level-item">
+                  <span className="has-text-grey has-text-weight-semibold">{item.price.toFixed(0)},-</span>
+                </div>
+              </div>
+            </div>
           </div>
         ))}
-      </div>
-
-      <div className="buttons mb-4">
-        <button
-          onClick={() => onComplete(order)}
-          className="button is-large is-success"
-          style={{ flex: 1 }}
-        >
-          <span>Uzavřít<span className="is-hidden-mobile"> objednávku</span></span>
-        </button>
       </div>
 
       <div className="level is-mobile">
         <div className="level-left">
           <div className="level-item">
             <button
-              onClick={() => onEdit(order)}
-              className="button is-info is-light"
+              onClick={() => onReopen(order.id)}
+              className="button is-light"
             >
-              Upravit objednávku
+              Znovu otevřít
             </button>
           </div>
         </div>
@@ -127,14 +117,13 @@ const PendingOrderCard = ({
               onClick={() => onDelete(order)}
               className="button is-danger has-text-white"
             >
-              &times;️
+              &times;
             </button>
           </div>
         </div>
       </div>
-
     </article>
   );
 };
 
-export default PendingOrderCard;
+export default CompletedOrderCard;

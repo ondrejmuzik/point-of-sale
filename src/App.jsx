@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useOrders } from './hooks/useOrders';
 import { useCart } from './hooks/useCart';
 import { useWakeLock } from './hooks/useWakeLock';
-import Header from './components/Header';
-import TabNavigation from './components/TabNavigation';
-import POSView from './components/POSView';
-import OrdersView from './components/OrdersView';
-import StatisticsView from './components/StatisticsView';
-import ConfirmModal from './components/ConfirmModal';
-import SuccessMessage from './components/SuccessMessage';
-import PaymentQRCode from './components/PaymentQRCode';
+import Header from './components/ui/Header';
+import TabNavigation from './components/ui/TabNavigation';
+import POSView from './components/views/POSView';
+import OrdersView from './components/views/OrdersView';
+import StatisticsView from './components/views/StatisticsView';
+import ConfirmModal from './components/modals/ConfirmModal';
+import SuccessMessage from './components/modals/SuccessMessage';
+import PaymentQRCode from './components/modals/PaymentQRCode';
 
 const BeveragePOS = () => {
   const [activeTab, setActiveTab] = useState('pos');

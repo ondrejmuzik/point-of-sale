@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import QRCode from 'qrcode';
-import { generateSPAYD, paymentConfig } from '../constants/payment';
+import { generateSPAYD, paymentConfig } from '../../constants/payment';
 
 const PaymentQRCode = ({ amount, orderNumber, onClose }) => {
   const canvasRef = useRef(null);

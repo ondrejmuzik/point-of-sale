@@ -1,6 +1,6 @@
 import React from 'react';
-import hornLeft from '../assets/horn-left.svg';
-import hornRight from '../assets/horn-right.svg';
+import hornLeft from '../../assets/horn-left.svg';
+import hornRight from '../../assets/horn-right.svg';
 
 
 const Header = () => {

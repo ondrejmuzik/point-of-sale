@@ -1,4 +1,4 @@
-import { products } from '../constants/products';
+import { products } from '../../constants/products';
 
 const StatisticsView = ({ orders }) => {
   const calculateStats = () => {
