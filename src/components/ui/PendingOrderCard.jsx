@@ -116,7 +116,7 @@ const PendingOrderCard = ({
           <div className="level-item">
             <button
               onClick={() => onEdit(order)}
-              className="button is-info is-light"
+              className="button is-warning"
             >
               Upravit objednávku
             </button>
