@@ -20,18 +20,21 @@ const POSView = ({
   onShowQRCode,
   getTotal
 }) => {
-  // Sort cart items based on product grid order
+  // Sort cart items based on product grid order and filter out auto cups
   const getSortedCart = () => {
     const productOrder = products.map(p => p.id);
-    // Define order: products first, then cup, then cup return
+    // Define order: products first, then extra cups, then cup return
     const orderMap = {};
     productOrder.forEach((id, index) => {
       orderMap[id] = index;
     });
-    orderMap['cup'] = productOrder.length;
+    orderMap['cup-extra'] = productOrder.length;
     orderMap['cup-return'] = productOrder.length + 1;
 
-    return [...cart].sort((a, b) => {
+    // Filter out auto cup items as they'll be shown under beverages
+    const filteredCart = cart.filter(item => item.id !== 'cup');
+
+    return filteredCart.sort((a, b) => {
       const orderA = orderMap[a.id] ?? orderMap[a.cartKey] ?? 999;
       const orderB = orderMap[b.id] ?? orderMap[b.cartKey] ?? 999;
       return orderA - orderB;
@@ -39,6 +42,7 @@ const POSView = ({
   };
 
   const sortedCart = getSortedCart();
+  const cupItem = cart.find(item => item.id === 'cup');
 
   // Scroll to cart section
   const scrollToCart = () => {
@@ -104,6 +108,7 @@ const POSView = ({
                           key={item.cartKey}
                           item={item}
                           onUpdateQuantity={onUpdateQuantity}
+                          cupItem={cupItem}
                         />
                       ))}
                     </div>
