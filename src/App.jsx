@@ -76,7 +76,7 @@ const BeveragePOS = () => {
   const requestDeleteOrder = (order) => {
     setConfirmAction({
       type: 'deleteOrder',
-      message: `Smazat objednávku #${order.orderNumber}? Toto je nevratná operace.`,
+      message: `Smazat objednávku #${order.order_number}? Toto je nevratná operace.`,
       onConfirm: async () => {
         await deleteOrder(order.id);
         setConfirmAction(null);
