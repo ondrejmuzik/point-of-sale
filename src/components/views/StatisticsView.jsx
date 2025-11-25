@@ -15,10 +15,17 @@ const StatisticsView = ({ orders }) => {
       itemsSold[product.name] = 0;
     });
 
+    // Track extra cups separately
+    let extraCupsCount = 0;
+
     orders.forEach(order => {
       order.items.forEach(item => {
         if (itemsSold.hasOwnProperty(item.name)) {
           itemsSold[item.name] += 1;
+        }
+        // Track extra cups (sold separately, not auto-added with beverages)
+        if (item.id === 'cup-extra') {
+          extraCupsCount += 1;
         }
       });
     });
@@ -41,7 +48,8 @@ const StatisticsView = ({ orders }) => {
       totalOrders: orders.length,
       itemsSold,
       revenuePerItem,
-      totalItemsSold: Object.values(itemsSold).reduce((sum, count) => sum + count, 0)
+      totalItemsSold: Object.values(itemsSold).reduce((sum, count) => sum + count, 0),
+      extraCupsCount,
     };
   };
 
@@ -126,18 +134,26 @@ const StatisticsView = ({ orders }) => {
         <div className="box">
           <h2 className="title is-3 mb-4">Další statistiky</h2>
           <div className="columns">
-            <div className="column">
+            <div className="column is-4">
               <p className="has-text-grey mb-2">Průměrná hodnota objednávky</p>
               <p className="title is-2">
                 {stats.totalOrders > 0 ? (stats.totalRevenue / stats.totalOrders).toFixed(0) : '0'},-
               </p>
             </div>
-            <div className="column">
+            <div className="column is-4">
               <p className="has-text-grey mb-2">Průměr položek na objednávku</p>
               <p className="title is-2">
                 {stats.totalOrders > 0 ? (stats.totalItemsSold / stats.totalOrders).toFixed(1) : '0'}
               </p>
             </div>
+            {stats.extraCupsCount > 0 && (
+              <div className="column is-3">
+                <p className="has-text-grey mb-2">Vydané prázdné kelímky</p>
+                <p className="title is-2">
+                  {stats.extraCupsCount}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
