@@ -49,7 +49,7 @@ const POSView = ({
   };
 
   return (
-    <section className="section pos-view-modern">
+    <section className="section pos-view">
       <div className="container">
         <div className="columns">
           {/* Left Side - Product Grid */}

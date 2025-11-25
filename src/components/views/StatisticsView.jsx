@@ -48,7 +48,7 @@ const StatisticsView = ({ orders }) => {
   const stats = calculateStats();
 
   return (
-    <section className="section">
+    <section className="section statistics-view">
       <div className="container">
         <div className="columns mb-5">
           <div className="column">
