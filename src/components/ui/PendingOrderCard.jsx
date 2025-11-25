@@ -15,6 +15,7 @@ const PendingOrderCard = ({
     // Separate items by type
     const beverages = items.filter(item => productIds.includes(item.id));
     const cups = items.filter(item => item.id === 'cup');
+    const extraCups = items.filter(item => item.id === 'cup-extra');
     const cupReturns = items.filter(item => item.id === 'cup-return');
 
     const groupedItems = [];
@@ -44,8 +45,7 @@ const PendingOrderCard = ({
       }
     });
 
-    // Add remaining cups that weren't paired with beverages
-    const extraCups = cups.filter(cup => !usedCupIds.has(cup.itemId));
+    // Add extra cups (sold separately)
     groupedItems.push(...extraCups);
 
     // Add cup returns
@@ -57,6 +57,7 @@ const PendingOrderCard = ({
       orderMap[id] = index;
     });
     orderMap['cup'] = productIds.length;
+    orderMap['cup-extra'] = productIds.length;
     orderMap['cup-return'] = productIds.length + 1;
 
     return groupedItems.sort((a, b) => {

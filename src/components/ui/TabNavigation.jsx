@@ -13,7 +13,7 @@ const TabNavigation = ({ activeTab, onTabChange, pendingCount }) => {
           <a onClick={() => onTabChange('orders')}>
             <strong>Objednávky</strong>
             {pendingCount > 0 && (
-              <span className="tag is-danger is-rounded ml-2">
+              <span className="tag is-warning is-rounded ml-2">
                 {pendingCount}
               </span>
             )}

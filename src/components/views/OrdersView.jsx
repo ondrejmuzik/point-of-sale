@@ -11,7 +11,7 @@ const OrdersView = ({
   onDeleteOrder
 }) => {
   return (
-    <section className="section">
+    <section className="section orders-view">
       <div className="container">
         <div className="mb-6">
           <h2 className="title is-3">Nové objednávky</h2>
