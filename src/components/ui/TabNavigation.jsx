@@ -2,7 +2,7 @@ import React from 'react';
 
 const TabNavigation = ({ activeTab, onTabChange, pendingCount }) => {
   return (
-    <nav className="tabs is-boxed is-large is-fullwidth">
+    <nav className="tabs is-boxed is-large is-fullwidth tab-navigation">
       <ul>
         <li className={activeTab === 'pos' ? 'is-active' : ''}>
           <a onClick={() => onTabChange('pos')}>
