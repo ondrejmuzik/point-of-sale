@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useOrders } from './hooks/useOrders';
 import { useCart } from './hooks/useCart';
 import { useWakeLock } from './hooks/useWakeLock';
+import { useAuth } from './hooks/useAuth';
 import Header from './components/ui/Header';
 import TabNavigation from './components/ui/TabNavigation';
 import POSView from './components/views/POSView';
@@ -10,6 +11,7 @@ import StatisticsView from './components/views/StatisticsView';
 import ConfirmModal from './components/modals/ConfirmModal';
 import SuccessMessage from './components/modals/SuccessMessage';
 import PaymentQRCode from './components/modals/PaymentQRCode';
+import PasswordModal from './components/modals/PasswordModal';
 
 const BeveragePOS = () => {
   const [activeTab, setActiveTab] = useState('pos');
@@ -17,6 +19,9 @@ const BeveragePOS = () => {
   const [editingOrder, setEditingOrder] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showQRCode, setShowQRCode] = useState(false);
+
+  // Authentication
+  const { isAuthenticated, login, logout } = useAuth();
 
   // Keep screen awake on mobile devices
   useWakeLock();
@@ -95,9 +100,14 @@ const BeveragePOS = () => {
     clearCart();
   };
 
+  // Show password modal if not authenticated
+  if (!isAuthenticated) {
+    return <PasswordModal onSubmit={login} />;
+  }
+
   return (
     <div className="app has-background-light" style={{ minHeight: '100vh' }} data-theme="light">
-      <Header />
+      <Header onLogout={logout} />
 
       <TabNavigation
         activeTab={activeTab}

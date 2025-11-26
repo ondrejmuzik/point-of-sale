@@ -493,3 +493,27 @@ button.delete {
     padding: 0.75rem 1.5rem;
   }
 }
+
+/* ============================================
+   PASSWORD MODAL
+   ============================================ */
+.password-modal-head {
+  background: #b53839;
+}
+
+.password-modal-button {
+  background: #b53839 !important;
+  opacity: 1 !important;
+}
+
+/* ============================================
+   HEADER LOGOUT BUTTON
+   ============================================ */
+.header-logout-button {
+  position: absolute;
+  right: .5rem;
+  top: .5rem;
+  background: #b53839;
+  border: none;
+  box-shadow: none;
+}
