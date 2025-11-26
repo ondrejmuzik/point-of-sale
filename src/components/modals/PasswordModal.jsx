@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import icon from '../../assets/icon3.svg';
 
 const PasswordModal = ({ onSubmit }) => {
   const [password, setPassword] = useState('');
@@ -43,8 +44,9 @@ const PasswordModal = ({ onSubmit }) => {
     <div className="modal is-active">
       <div className="modal-background"></div>
       <div className="modal-card">
-        <header className="modal-card-head password-modal-head">
-          <h1 className="title is-inline has-text-white has-text-centered">Čertovský svařák&nbsp;2025</h1>
+        <header className="modal-card-head password-modal-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '.5rem 2rem' }}>
+          <h1 className="title is-inline has-text-white mb-0 is-size-4-mobile" style={{ flex: 1 }}>Přihlášení</h1>
+            <img src={icon} width="72px" alt="Čertovský svařák" />
         </header>
         <section className="modal-card-body">
           <div className="field">
