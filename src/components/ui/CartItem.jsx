@@ -1,4 +1,4 @@
-const CartItem = ({ item, onUpdateQuantity, cupItem }) => {
+const CartItem = ({ item, onUpdateQuantity, cupItem, isStaffOrder }) => {
   const getItemClass = () => {
     if (item.isReturn) return 'order-summary__item--return';
     if (item.id === 'cup' || item.id === 'cup-extra') return 'order-summary__item--cup';
@@ -15,7 +15,9 @@ const CartItem = ({ item, onUpdateQuantity, cupItem }) => {
           <div className="order-summary__item-quantity">
             <span>x{item.quantity}</span>
           </div>
-          <span className="order-summary__item-price">{(item.price * item.quantity).toFixed(0)},-</span>
+          <span className="order-summary__item-price">
+            {isStaffOrder ? '0,-' : `${(item.price * item.quantity).toFixed(0)},-`}
+          </span>
         </div>
         <button
           onClick={() => onUpdateQuantity(item.cartKey, -1)}
@@ -33,7 +35,9 @@ const CartItem = ({ item, onUpdateQuantity, cupItem }) => {
             <div className="order-summary__item-quantity order-summary__item-quantity--muted">
               <span>x{item.quantity}</span>
             </div>
-            <span className="order-summary__item-price order-summary__item-price--muted">{(cupItem.price * item.quantity).toFixed(0)},-</span>
+            <span className="order-summary__item-price order-summary__item-price--muted">
+              {isStaffOrder ? '0,-' : `${(cupItem.price * item.quantity).toFixed(0)},-`}
+            </span>
           </div>
         </div>
       )}

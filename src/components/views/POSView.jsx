@@ -18,7 +18,9 @@ const POSView = ({
   onCancelEdit,
   onCompleteOrder,
   onShowQRCode,
-  getTotal
+  getTotal,
+  isStaffOrder,
+  onToggleStaffOrder
 }) => {
   // Sort cart items based on product grid order and filter out auto cups
   const getSortedCart = () => {
@@ -128,24 +130,37 @@ const POSView = ({
                           item={item}
                           onUpdateQuantity={onUpdateQuantity}
                           cupItem={cupItem}
+                          isStaffOrder={isStaffOrder}
                         />
                       ))}
                     </div>
 
                     <div className="order-summary__total">
                       <span className="order-summary__total-label">Celkem:</span>
-                      <span className={`order-summary__total-amount ${parseFloat(getTotal()) < 0 ? 'order-summary__total-amount--negative' : ''}`}>{getTotal()},-</span>
+                      <span className={`order-summary__total-amount ${parseFloat(getTotal()) < 0 ? 'order-summary__total-amount--negative' : ''}`}>
+                        {isStaffOrder ? '0,-' : `${getTotal()},-`}
+                      </span>
+                    </div>
+
+                    <div className="level is-mobile">
+                      <button
+                        onClick={onShowQRCode}
+                        className="button is-success is-large is-rounded"
+                        disabled={parseFloat(getTotal()) <= 0 || isStaffOrder}
+                        style={{ flex: 1 }}
+                      >
+                        <img src={qrCodeIcon} alt="QR platba" width="32" />
+                      </button>
+                      <button
+                        onClick={onToggleStaffOrder}
+                        className={`button is-large is-rounded ${isStaffOrder ? 'is-warning' : 'is-light'}`}
+                        style={{ flex: 1 }}
+                      >
+                        {isStaffOrder ? '︎❤️' : '$'}
+                      </button>
                     </div>
 
                     <div className="buttons">
-                      <button
-                        onClick={onShowQRCode}
-                        className="button is-success is-large is-fullwidth is-rounded"
-                        disabled={parseFloat(getTotal()) <= 0}
-                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
-                      >
-                        <img src={qrCodeIcon} alt="QR platba" style={{ width: '32px', height: '32px' }} />
-                      </button>
                       <button
                         onClick={handleCompleteOrder}
                         className="button is-danger is-large is-fullwidth is-rounded order-summary__pay-button has-text-white"
@@ -193,7 +208,7 @@ const POSView = ({
             <div className="cart-summary-fixed__total" onClick={scrollToCart}>
               <span className="cart-summary-fixed__label">Celkem:</span>
               <span className={`cart-summary-fixed__amount ${parseFloat(getTotal()) < 0 ? 'cart-summary-fixed__amount--negative' : ''}`}>
-                {getTotal()},-
+                {isStaffOrder ? '0,-' : `${getTotal()},-`}
               </span>
             </div>
             <button

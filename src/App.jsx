@@ -19,6 +19,7 @@ const BeveragePOS = () => {
   const [editingOrder, setEditingOrder] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showQRCode, setShowQRCode] = useState(false);
+  const [isStaffOrder, setIsStaffOrder] = useState(false);
 
   // Authentication
   const { isAuthenticated, login, logout } = useAuth();
@@ -66,10 +67,11 @@ const BeveragePOS = () => {
       await updateOrder(editingOrder.id, cart, getTotal);
       setEditingOrder(null);
     } else {
-      await addOrder(cart, getTotal);
+      await addOrder(cart, getTotal, isStaffOrder);
     }
 
     clearCart();
+    setIsStaffOrder(false);
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 2000);
   };
@@ -151,6 +153,8 @@ const BeveragePOS = () => {
           onCompleteOrder={completeOrder}
           onShowQRCode={() => setShowQRCode(true)}
           getTotal={getTotal}
+          isStaffOrder={isStaffOrder}
+          onToggleStaffOrder={() => setIsStaffOrder(!isStaffOrder)}
         />
       )}
 

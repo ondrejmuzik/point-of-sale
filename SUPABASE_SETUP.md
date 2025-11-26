@@ -50,6 +50,7 @@ CREATE TABLE orders (
   total TEXT NOT NULL,
   timestamp TEXT NOT NULL,
   completed BOOLEAN DEFAULT FALSE,
+  is_staff_order BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -65,6 +66,9 @@ CREATE INDEX idx_orders_order_number ON orders(order_number);
 
 -- Create index on completed status for filtering
 CREATE INDEX idx_orders_completed ON orders(completed);
+
+-- Create index on is_staff_order for statistics filtering
+CREATE INDEX idx_orders_is_staff_order ON orders(is_staff_order);
 
 -- Add function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()

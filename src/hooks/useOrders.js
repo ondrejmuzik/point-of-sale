@@ -70,7 +70,7 @@ export const useOrders = () => {
     setOrderNumber(num);
   };
 
-  const addOrder = async (cart, getTotal) => {
+  const addOrder = async (cart, getTotal, isStaffOrder = false) => {
     try {
       // Prepare order items
       const orderItems = [];
@@ -93,7 +93,8 @@ export const useOrders = () => {
         items: orderItems,
         total: getTotal(),
         timestamp: new Date().toLocaleTimeString(),
-        completed: false
+        completed: false,
+        is_staff_order: isStaffOrder
       };
 
       // Insert into Supabase

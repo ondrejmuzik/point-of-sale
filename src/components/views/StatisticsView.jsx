@@ -2,17 +2,30 @@ import { products } from '../../constants/products';
 
 const StatisticsView = ({ orders }) => {
   const calculateStats = () => {
-    // Count all orders (both pending and completed)
-    const totalRevenue = orders.reduce((sum, order) => {
+    // Separate staff orders from regular orders
+    const regularOrders = orders.filter(order => !order.is_staff_order);
+    const staffOrders = orders.filter(order => order.is_staff_order);
+
+    // Count revenue only from regular orders
+    const totalRevenue = regularOrders.reduce((sum, order) => {
       const orderRevenue = order.items
         .filter(item => item.id !== 'cup')
         .reduce((itemSum, item) => itemSum + item.price, 0);
       return sum + orderRevenue;
     }, 0);
 
+    // Calculate staff order statistics
+    const staffOrderCount = staffOrders.length;
+    let staffItemsCount = 0;
+    staffOrders.forEach(order => {
+      staffItemsCount += order.items.filter(item => item.id !== 'cup').length;
+    });
+
     const itemsSold = {};
+    const freeItemsSold = {};
     products.forEach(product => {
       itemsSold[product.name] = 0;
+      freeItemsSold[product.name] = 0;
     });
 
     // Track extra cups separately
@@ -21,10 +34,14 @@ const StatisticsView = ({ orders }) => {
     orders.forEach(order => {
       order.items.forEach(item => {
         if (itemsSold.hasOwnProperty(item.name)) {
-          itemsSold[item.name] += 1;
+          if (order.is_staff_order) {
+            freeItemsSold[item.name] += 1;
+          } else {
+            itemsSold[item.name] += 1;
+          }
         }
         // Track extra cups (sold separately, not auto-added with beverages)
-        if (item.id === 'cup-extra') {
+        if (item.id === 'cup-extra' && !order.is_staff_order) {
           extraCupsCount += 1;
         }
       });
@@ -35,7 +52,8 @@ const StatisticsView = ({ orders }) => {
       revenuePerItem[product.name] = 0;
     });
 
-    orders.forEach(order => {
+    // Only count revenue from regular orders (exclude staff orders)
+    regularOrders.forEach(order => {
       order.items.forEach(item => {
         if (revenuePerItem.hasOwnProperty(item.name)) {
           revenuePerItem[item.name] += item.price;
@@ -45,11 +63,14 @@ const StatisticsView = ({ orders }) => {
 
     return {
       totalRevenue,
-      totalOrders: orders.length,
+      totalOrders: regularOrders.length,
       itemsSold,
+      freeItemsSold,
       revenuePerItem,
       totalItemsSold: Object.values(itemsSold).reduce((sum, count) => sum + count, 0),
       extraCupsCount,
+      staffOrderCount,
+      staffItemsCount,
     };
   };
 
@@ -80,6 +101,24 @@ const StatisticsView = ({ orders }) => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="container">
+        <div className="columns mb-5">
+          <div className="column">
+            <div className="box has-text-centered">
+              <p className="heading">Interní objednávky</p>
+              <p className="title is-1 has-text-warning">{stats.staffOrderCount}</p>
+            </div>
+          </div>
+
+          <div className="column">
+            <div className="box has-text-centered">
+              <p className="heading">Bezplatně vydané položky</p>
+              <p className="title is-1 has-text-warning">{stats.staffItemsCount}</p>
+            </div>
+          </div>
+        </div>
 
         <div className="box mb-5">
           <h2 className="title is-3 mb-4">Prodeje podle položek</h2>
@@ -87,8 +126,11 @@ const StatisticsView = ({ orders }) => {
             {products.map(product => {
               const count = stats.itemsSold[product.name];
               const revenue = stats.revenuePerItem[product.name];
-              const percentage = stats.totalItemsSold > 0
-                ? (count / stats.totalItemsSold * 100).toFixed(1)
+              const freeCount = stats.freeItemsSold[product.name];
+              const totalCount = count + freeCount;
+              const allItemsTotal = stats.totalItemsSold + stats.staffItemsCount;
+              const percentage = allItemsTotal > 0
+                ? (totalCount / allItemsTotal * 100).toFixed(1)
                 : 0;
 
               return (
@@ -110,6 +152,16 @@ const StatisticsView = ({ orders }) => {
                     <div className="column">
                       <p className="has-text-grey">Prodané kusy:</p>
                       <p className="title is-4">{count}</p>
+                    </div>
+
+                    <div className="column">
+                      <p className="has-text-grey">Bezplatně:</p>
+                      <p className="title is-4 has-text-warning">{freeCount}</p>
+                    </div>
+
+                    <div className="column">
+                      <p className="has-text-grey">Celkem:</p>
+                      <p className="title is-4 has-text-info">{totalCount}</p>
                     </div>
 
                     <div className="column">

@@ -67,16 +67,23 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
         <div className="level-left">
           <div className="level-item">
             <div>
-              <h3 className="title is-5 has-text-grey">Objednávka #{order.order_number}</h3>
+              <h3 className="title is-5 has-text-grey">
+                Objednávka #{order.order_number}
+                {order.is_staff_order && (
+                  <span className="tag is-warning ml-2">INTERNÍ</span>
+                )}
+              </h3>
               <p className="subtitle is-6 has-text-grey-light">{order.timestamp}</p>
             </div>
           </div>
         </div>
-        <div className="level-right">
-          <div className="level-item">
-            <p className="title is-4 has-text-grey">{order.total},-</p>
+        {!order.is_staff_order && (
+          <div className="level-right">
+            <div className="level-item">
+              <p className="title is-4 has-text-grey">{order.total},-</p>
+            </div>
           </div>
-        </div>
+        )}
       </header>
 
       <div className="order-items mb-3">
