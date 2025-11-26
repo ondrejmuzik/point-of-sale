@@ -148,7 +148,7 @@ const StatisticsView = ({ orders }) => {
             </div>
             {stats.extraCupsCount > 0 && (
               <div className="column is-3">
-                <p className="has-text-grey mb-2">Vydané prázdné kelímky</p>
+                <p className="has-text-grey mb-2">Vydáno prázdných kelímků</p>
                 <p className="title is-2">
                   {stats.extraCupsCount}
                 </p>
