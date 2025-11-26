@@ -52,6 +52,20 @@ const POSView = ({
     }
   };
 
+  // Scroll to top of the view
+  const scrollToTop = () => {
+    const tabNavigation = document.querySelector('.tab-navigation');
+    if (tabNavigation) {
+      tabNavigation.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // Handle order completion with scroll to top
+  const handleCompleteOrder = () => {
+    onCompleteOrder();
+    setTimeout(scrollToTop, 400)
+  };
+
   return (
     <section className="section pos-view">
       <div className="container">
@@ -128,7 +142,7 @@ const POSView = ({
                         <img src={qrCodeIcon} alt="QR platba" style={{ width: '32px', height: '32px' }} />
                       </button>
                       <button
-                        onClick={onCompleteOrder}
+                        onClick={handleCompleteOrder}
                         className="button is-danger is-large is-fullwidth is-rounded order-summary__pay-button has-text-white"
                       >
                         {editingOrder ? 'Uložit změny' : 'Dokončit'}
@@ -176,7 +190,7 @@ const POSView = ({
               </span>
             </div>
             <button
-              onClick={onCompleteOrder}
+              onClick={handleCompleteOrder}
               className="button is-danger is-large is-rounded cart-summary-fixed__pay-button has-text-white"
             >
               {editingOrder ? 'Uložit' : 'Dokončit'}
