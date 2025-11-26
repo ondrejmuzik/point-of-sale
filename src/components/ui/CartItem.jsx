@@ -18,10 +18,10 @@ const CartItem = ({ item, onUpdateQuantity, cupItem }) => {
           <span className="order-summary__item-price">{(item.price * item.quantity).toFixed(0)},-</span>
         </div>
         <button
-          onClick={() => onUpdateQuantity(item.cartKey, -item.quantity)}
+          onClick={() => onUpdateQuantity(item.cartKey, -1)}
           className="order-summary__item-remove"
         >
-          ✕
+          -
         </button>
       </div>
 

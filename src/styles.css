@@ -209,18 +209,24 @@
 }
 
 .order-summary__item-remove {
-  background: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #dbdbdb;
   border: none;
-  color: #c85a54;
+  color: #fff;
   cursor: pointer;
-  font-size: 1.25rem;
-  padding: 0.25rem 0.5rem;
-  margin-left: 0.5rem;
+  font-size: 1.5rem;
+  padding: 0;
+  margin-left: 0.75rem;
   transition: color 0.2s;
+  border-radius: 50%;
 }
 
 .order-summary__item-remove:hover {
-  color: #a84840;
+  background: #a84840;
 }
 
 .order-summary__item--return .order-summary__item-name {
@@ -239,7 +245,7 @@
 .order-summary__item--grouped-cup {
   padding-top: 0;
   padding-bottom: 0.5rem;
-  padding-right: 2.4375rem;
+  padding-right: 2.25rem;
   border-bottom: 1px solid #f0f0f0;
 }
 
