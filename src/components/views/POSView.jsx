@@ -112,7 +112,12 @@ const POSView = ({
           <div className="column is-6">
             <div className="order-summary">
               <div className="order-summary__inner">
-                <h2 className="order-summary__title">Objednávka</h2>
+                <h2 className="order-summary__title">
+                  {editingOrder
+                    ? `Úprava objednávky${orderNumber ? ` #${orderNumber}` : ''}`
+                    : `Objednávka${cart.length > 0 && orderNumber ? ` #${orderNumber}` : ''}`
+                  }
+                </h2>
 
                 {cart.length > 0 ? (
                   <>
@@ -150,12 +155,14 @@ const POSView = ({
                     </div>
 
                     <div className="buttons mt-3">
-                      <button
-                        onClick={onClearCart}
-                        className="button is-light is-fullwidth"
-                      >
-                        Stornovat
-                      </button>
+                      {!editingOrder && (
+                        <button
+                          onClick={onClearCart}
+                          className="button is-light is-fullwidth"
+                        >
+                          Stornovat
+                        </button>
+                      )}
                       {editingOrder && (
                         <button
                           onClick={onCancelEdit}
