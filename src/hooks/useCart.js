@@ -69,17 +69,20 @@ export const useCart = () => {
       });
     } else {
       setCart(prevCart => {
-        let newCart = [...prevCart, {
-          id: product.id,
-          cartKey: cartKey,
-          name: product.name,
-          price: product.price,
-          quantity: 1,
-          isReturn: false
-        }];
+        let newCart = prevCart;
 
         // Also add a cup when adding a drink (not when adding a cup itself)
         if (product.id !== 'cup') {
+          // Add the product first
+          newCart = [...newCart, {
+            id: product.id,
+            cartKey: cartKey,
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+            isReturn: false
+          }];
+
           const cupKey = 'cup';
           const existingCup = newCart.find(item => item.cartKey === cupKey);
           if (existingCup) {
@@ -100,7 +103,7 @@ export const useCart = () => {
             }];
           }
         } else {
-          // Adding extra cup separately
+          // Adding extra cup separately - don't add the product itself, just the extra cup
           const extraCupKey = 'cup-extra';
           const existingExtraCup = newCart.find(item => item.cartKey === extraCupKey);
           if (existingExtraCup) {
