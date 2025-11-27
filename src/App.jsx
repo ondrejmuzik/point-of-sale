@@ -20,6 +20,7 @@ const BeveragePOS = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showQRCode, setShowQRCode] = useState(false);
   const [isStaffOrder, setIsStaffOrder] = useState(false);
+  const [orderNote, setOrderNote] = useState('');
 
   // Authentication
   const { isAuthenticated, login, logout } = useAuth();
@@ -35,7 +36,8 @@ const BeveragePOS = () => {
     addOrder,
     updateOrder,
     toggleOrderComplete,
-    deleteOrder
+    deleteOrder,
+    updateOrderNote
   } = useOrders();
 
   const {
@@ -55,6 +57,7 @@ const BeveragePOS = () => {
       message: 'Opravdu chcete zrušit aktuální objednávku?',
       onConfirm: () => {
         clearCart();
+        setOrderNote('');
         setConfirmAction(null);
       }
     });
@@ -64,13 +67,14 @@ const BeveragePOS = () => {
     if (cart.length === 0) return;
 
     if (editingOrder) {
-      await updateOrder(editingOrder.id, cart, getTotal);
+      await updateOrder(editingOrder.id, cart, getTotal, orderNote);
       setEditingOrder(null);
     } else {
-      await addOrder(cart, getTotal, isStaffOrder);
+      await addOrder(cart, getTotal, isStaffOrder, orderNote);
     }
 
     clearCart();
+    setOrderNote('');
     setIsStaffOrder(false);
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 2000);
@@ -93,12 +97,14 @@ const BeveragePOS = () => {
 
   const editOrder = (order) => {
     setEditingOrder(order);
+    setOrderNote(order.note || '');
     loadCartFromOrder(order);
     setActiveTab('pos');
   };
 
   const cancelEdit = () => {
     setEditingOrder(null);
+    setOrderNote('');
     clearCart();
   };
 
@@ -145,6 +151,8 @@ const BeveragePOS = () => {
           editingOrder={editingOrder}
           cart={cart}
           clickedButton={clickedButton}
+          orderNote={orderNote}
+          onOrderNoteChange={setOrderNote}
           onAddToCart={addToCart}
           onAddCupReturn={addCupReturn}
           onUpdateQuantity={updateQuantity}

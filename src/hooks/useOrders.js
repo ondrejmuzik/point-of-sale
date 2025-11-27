@@ -70,7 +70,7 @@ export const useOrders = () => {
     setOrderNumber(num);
   };
 
-  const addOrder = async (cart, getTotal, isStaffOrder = false) => {
+  const addOrder = async (cart, getTotal, isStaffOrder = false, note = '') => {
     try {
       // Prepare order items
       const orderItems = [];
@@ -94,7 +94,8 @@ export const useOrders = () => {
         total: getTotal(),
         timestamp: new Date().toLocaleTimeString(),
         completed: false,
-        is_staff_order: isStaffOrder
+        is_staff_order: isStaffOrder,
+        note: note.trim()
       };
 
       // Insert into Supabase
@@ -116,7 +117,7 @@ export const useOrders = () => {
     }
   };
 
-  const updateOrder = async (orderId, cart, getTotal) => {
+  const updateOrder = async (orderId, cart, getTotal, note = '') => {
     try {
       // Prepare order items
       const orderItems = [];
@@ -139,7 +140,8 @@ export const useOrders = () => {
         .update({
           items: orderItems,
           total: getTotal(),
-          timestamp: new Date().toLocaleTimeString()
+          timestamp: new Date().toLocaleTimeString(),
+          note: note.trim()
         })
         .eq('id', orderId);
 
@@ -190,6 +192,22 @@ export const useOrders = () => {
     }
   };
 
+  const updateOrderNote = async (orderId, newNote) => {
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .update({ note: newNote.trim() })
+        .eq('id', orderId);
+
+      if (error) throw error;
+
+      await loadOrders();
+    } catch (error) {
+      console.error('Failed to update order note:', error);
+      throw error;
+    }
+  };
+
   const pendingOrders = orders.filter(o => !o.completed);
   const completedOrders = orders.filter(o => o.completed).reverse();
 
@@ -202,6 +220,7 @@ export const useOrders = () => {
     updateOrder,
     toggleOrderComplete,
     deleteOrder,
+    updateOrderNote,
     loading
   };
 };

@@ -107,6 +107,20 @@ const PendingOrderCard = ({
         ))}
       </div>
 
+      {order.note && (
+        <div className="mb-4" style={{ borderTop: '1px solid rgba(0,0,0,0.1)', paddingTop: '1rem' }}>
+          <p className="has-text-grey-dark" style={{
+            fontSize: '0.9rem',
+            fontStyle: 'italic',
+            padding: '0.5rem',
+            backgroundColor: 'rgba(0,0,0,0.03)',
+            borderRadius: '4px'
+          }}>
+            {order.note}
+          </p>
+        </div>
+      )}
+
       <div className="buttons mb-4">
         <button
           onClick={() => onComplete(order)}

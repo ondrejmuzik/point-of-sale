@@ -11,6 +11,8 @@ const POSView = ({
   editingOrder,
   cart,
   clickedButton,
+  orderNote,
+  onOrderNoteChange,
   onAddToCart,
   onAddCupReturn,
   onUpdateQuantity,
@@ -140,6 +142,19 @@ const POSView = ({
                       <span className={`order-summary__total-amount ${parseFloat(getTotal()) < 0 ? 'order-summary__total-amount--negative' : ''}`}>
                         {isStaffOrder ? '0,-' : `${getTotal()},-`}
                       </span>
+                    </div>
+
+                    <div className="field mt-4">
+                      <div className="control">
+                        <input
+                          type="text"
+                          className="input is-small"
+                          placeholder="Poznámka"
+                          value={orderNote}
+                          onChange={(e) => onOrderNoteChange(e.target.value)}
+                          maxLength="500"
+                        />
+                      </div>
                     </div>
 
                     <div className="level is-mobile">

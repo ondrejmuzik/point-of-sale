@@ -51,6 +51,7 @@ CREATE TABLE orders (
   timestamp TEXT NOT NULL,
   completed BOOLEAN DEFAULT FALSE,
   is_staff_order BOOLEAN DEFAULT FALSE,
+  note TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -162,6 +163,8 @@ CREATE POLICY "Allow all operations on settings"
 | `total` | TEXT | Total price as string (e.g., "120") |
 | `timestamp` | TEXT | Time string (e.g., "14:30:25") |
 | `completed` | BOOLEAN | Order completion status |
+| `is_staff_order` | BOOLEAN | Whether order is for staff (internal) |
+| `note` | TEXT | Optional note/comment for the order |
 | `created_at` | TIMESTAMP | Auto-generated creation timestamp |
 
 ### `settings` Table
@@ -171,6 +174,20 @@ CREATE POLICY "Allow all operations on settings"
 | `key` | TEXT | Setting name (primary key) |
 | `value` | JSONB | Setting value (can be any JSON type) |
 | `updated_at` | TIMESTAMP | Auto-updated modification timestamp |
+
+## Database Migrations
+
+If you already have an existing database and need to add the `note` column:
+
+1. Go to **SQL Editor** in your Supabase dashboard
+2. Run this migration:
+
+```sql
+-- Add note column to existing orders table
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS note TEXT;
+```
+
+3. Click "Run" to execute
 
 ## Troubleshooting
 

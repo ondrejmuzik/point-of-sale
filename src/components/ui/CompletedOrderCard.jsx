@@ -107,6 +107,20 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
         ))}
       </div>
 
+      {order.note && (
+        <div className="field mb-4">
+          <div className="control">
+            <input
+              type="text"
+              className="input is-small"
+              value={order.note}
+              readOnly
+              style={{ opacity: 0.7 }}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="level is-mobile">
         <div className="level-left">
           <div className="level-item">
