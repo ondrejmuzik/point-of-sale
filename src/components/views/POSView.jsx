@@ -65,7 +65,7 @@ const POSView = ({
   // Handle order completion with scroll to top
   const handleCompleteOrder = () => {
     onCompleteOrder();
-    setTimeout(scrollToTop, 400)
+    scrollToTop();
   };
 
   return (
