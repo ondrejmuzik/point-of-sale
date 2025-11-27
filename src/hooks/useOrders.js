@@ -191,7 +191,7 @@ export const useOrders = () => {
   };
 
   const pendingOrders = orders.filter(o => !o.completed);
-  const completedOrders = orders.filter(o => o.completed);
+  const completedOrders = orders.filter(o => o.completed).reverse();
 
   return {
     orders,
