@@ -156,7 +156,7 @@ const POSView = ({
                         className={`button is-large is-rounded ${isStaffOrder ? 'is-warning' : 'is-light'}`}
                         style={{ flex: 1 }}
                       >
-                        {isStaffOrder ? '︎❤️' : '$'}
+                        {isStaffOrder ? '❤️' : '$'}
                       </button>
                     </div>
 

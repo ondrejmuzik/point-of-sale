@@ -73,9 +73,6 @@ const PendingOrderCard = ({
     <article className="box order-card has-background-warning-light">
       <h3 className="title is-4 mb-4" style={{ color: '#b53839' }}>
         Objednávka #{order.order_number}
-        {order.is_staff_order && (
-          <span className="tag is-warning ml-2">INTERNÍ</span>
-        )}
       </h3>
       <header className="level is-mobile mb-4">
         <div className="level-left">
@@ -85,13 +82,15 @@ const PendingOrderCard = ({
             </div>
           </div>
         </div>
-        {!order.is_staff_order && (
-          <div className="level-right">
-            <div className="level-item">
+        <div className="level-right">
+          <div className="level-item">
+            {order.is_staff_order ? (
+              <span className="tag is-info is-light">INTERNÍ</span>
+            ) : (
               <p className="title is-5">{order.total},-</p>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </header>
 
       <div className="order-items mb-4">
