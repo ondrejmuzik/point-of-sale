@@ -55,7 +55,7 @@ const SettingsView = ({
               <tbody>
                 <tr>
                   <td><strong>Verze</strong></td>
-                  <td>0.9.0</td>
+                  <td>1.0.0</td>
                 </tr>
               </tbody>
             </table>
