@@ -527,14 +527,14 @@ button.delete {
    ============================================ */
 .header-settings-button {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: rgba(255, 255, 255, 0.2) !important;
-  border: none !important;
+  top: .5rem;
+  right: .25rem;
+  border: none;
+  background: #b53839;
+  box-shadow: none;
   transition: all 0.3s ease;
 }
 
 .header-settings-button:hover {
-  background: rgba(255, 255, 255, 0.3) !important;
   transform: rotate(90deg);
 }

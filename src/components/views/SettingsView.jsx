@@ -44,10 +44,8 @@ const SettingsView = ({
   const hasFilters = dateFrom || dateTo;
 
   return (
-    <div className="container" style={{ marginTop: '2rem', paddingBottom: '2rem' }}>
-      <div className="columns is-centered">
-        <div className="column is-12-mobile is-10-tablet is-8-desktop">
-          <h1 className="title is-3 has-text-centered mb-5">Nastavení</h1>
+    <section className="section">
+          <h1 className="title is-3">Nastavení</h1>
 
           {/* App Info Section */}
           <div className="box mb-5">
@@ -56,23 +54,9 @@ const SettingsView = ({
             <table className="table is-fullwidth">
               <tbody>
                 <tr>
-                  <td><strong>Název aplikace</strong></td>
-                  <td>Čertovský svařák POS</td>
-                </tr>
-                <tr>
                   <td><strong>Verze</strong></td>
                   <td>0.9.0</td>
                 </tr>
-                <tr>
-                  <td><strong>Stav databáze</strong></td>
-                  <td>
-                    <span className="tag is-success">Připojeno</span>
-                  </td>
-                </tr>
-                {/* <tr>
-                  <td><strong>Celkem objednávek</strong></td>
-                  <td>{orders.length}</td>
-                </tr> */}
               </tbody>
             </table>
           </div>
@@ -131,7 +115,7 @@ const SettingsView = ({
           {/* Purge Section */}
           <div className="box has-background-warning-light mb-5">
             <h2 className="title is-5 mb-4">
-              ⚠️ Vymazat databázi
+              Vymazat databázi
             </h2>
 
             <p className="mb-4">
@@ -145,7 +129,7 @@ const SettingsView = ({
               className="button is-danger has-text-white"
               disabled={orders.length === 0}
             >
-              Vymazat databázi
+              ⚠️ Vymazat databázi
             </button>
           </div>
 
@@ -164,8 +148,6 @@ const SettingsView = ({
               Odhlásit se
             </button>
           </div>
-        </div>
-      </div>
 
       {/* Purge Confirmation Modal */}
       {showPurgeModal && (
@@ -181,7 +163,7 @@ const SettingsView = ({
           resetOrderNumber={resetOrderNumber}
         />
       )}
-    </div>
+    </section>
   );
 };
 

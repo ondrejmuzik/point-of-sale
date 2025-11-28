@@ -135,7 +135,7 @@ const PurgeConfirmModal = ({ orders, onClose, purgeAllOrders, resetOrderNumber }
     <div className="modal is-active">
       <div className="modal-background" onClick={handleClose}></div>
       <div className="modal-card">
-        <header className="modal-card-head has-background-danger">
+        <header className="modal-card-head password-modal-head">
           <p className="modal-card-title has-text-white">
             {currentStep === STEPS.PASSWORD_ENTRY && 'Vymazat databázi'}
             {currentStep === STEPS.CONFIRMATION && 'Potvrzení vymazání'}
@@ -157,7 +157,7 @@ const PurgeConfirmModal = ({ orders, onClose, purgeAllOrders, resetOrderNumber }
           {currentStep === STEPS.PASSWORD_ENTRY && (
             <div>
               <p className="mb-4">
-                Pro vymazání databáze zadejte heslo:
+                Pro potvrzení zadejte heslo:
               </p>
               <div className="field">
                 <div className="control">
@@ -287,7 +287,7 @@ const PurgeConfirmModal = ({ orders, onClose, purgeAllOrders, resetOrderNumber }
           )}
         </section>
 
-        <footer className="modal-card-foot">
+        <footer className="modal-card-foot buttons">
           {/* Step 1: Password Entry */}
           {currentStep === STEPS.PASSWORD_ENTRY && (
             <>
