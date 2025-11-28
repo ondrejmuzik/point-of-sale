@@ -100,6 +100,14 @@ const BeveragePOS = () => {
     setOrderNote(order.note || '');
     loadCartFromOrder(order);
     setActiveTab('pos');
+
+    // Scroll to cart on mobile after a short delay to allow tab transition
+    setTimeout(() => {
+      const cartElement = document.querySelector('.order-summary');
+      if (cartElement) {
+        cartElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   const cancelEdit = () => {
