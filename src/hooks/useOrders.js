@@ -208,6 +208,37 @@ export const useOrders = () => {
     }
   };
 
+  const getOrdersForExport = () => orders;
+
+  const purgeAllOrders = async () => {
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .delete()
+        .neq('id', 0); // Delete all orders (neq id 0 matches all rows)
+
+      if (error) throw error;
+
+      // Reload orders to clear state
+      await loadOrders();
+
+      return { success: true };
+    } catch (error) {
+      console.error('Failed to purge orders:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
+  const resetOrderNumber = async () => {
+    try {
+      await saveOrderNumber(1);
+      return { success: true };
+    } catch (error) {
+      console.error('Failed to reset order number:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
   const pendingOrders = orders.filter(o => !o.completed);
   const completedOrders = orders.filter(o => o.completed).reverse();
 
@@ -221,6 +252,9 @@ export const useOrders = () => {
     toggleOrderComplete,
     deleteOrder,
     updateOrderNote,
+    getOrdersForExport,
+    purgeAllOrders,
+    resetOrderNumber,
     loading
   };
 };

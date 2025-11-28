@@ -1,10 +1,10 @@
 import React from 'react';
+import { Settings } from 'lucide-react';
 import hornLeft from '../../assets/horn-left.svg';
 import hornRight from '../../assets/horn-right.svg';
-import exitIcon from '../../assets/exit.svg';
 
 
-const Header = ({ onLogout }) => {
+const Header = ({ onSettingsClick }) => {
   return (
     <header className="hero header">
       <div className="hero-body">
@@ -13,11 +13,11 @@ const Header = ({ onLogout }) => {
         </div>
       </div>
       <button
-        onClick={onLogout}
-        className="button is-small header-logout-button"
-        title="Odhlásit se"
+        onClick={onSettingsClick}
+        className="button is-small header-settings-button"
+        title="Nastavení"
       >
-        <img src={exitIcon} alt="Odhlásit" width="16" />
+        <Settings size={20} color="white" />
       </button>
     </header>
   );

@@ -8,6 +8,7 @@ import TabNavigation from './components/ui/TabNavigation';
 import POSView from './components/views/POSView';
 import OrdersView from './components/views/OrdersView';
 import StatisticsView from './components/views/StatisticsView';
+import SettingsView from './components/views/SettingsView';
 import ConfirmModal from './components/modals/ConfirmModal';
 import SuccessMessage from './components/modals/SuccessMessage';
 import PaymentQRCode from './components/modals/PaymentQRCode';
@@ -37,7 +38,10 @@ const BeveragePOS = () => {
     updateOrder,
     toggleOrderComplete,
     deleteOrder,
-    updateOrderNote
+    updateOrderNote,
+    getOrdersForExport,
+    purgeAllOrders,
+    resetOrderNumber
   } = useOrders();
 
   const {
@@ -123,7 +127,7 @@ const BeveragePOS = () => {
 
   return (
     <div className="app has-background-light" style={{ minHeight: '100vh' }} data-theme="light">
-      <Header onLogout={logout} />
+      <Header onSettingsClick={() => setActiveTab('settings')} />
 
       <TabNavigation
         activeTab={activeTab}
@@ -187,6 +191,16 @@ const BeveragePOS = () => {
 
       {activeTab === 'stats' && (
         <StatisticsView orders={orders} />
+      )}
+
+      {activeTab === 'settings' && (
+        <SettingsView
+          orders={orders}
+          getOrdersForExport={getOrdersForExport}
+          purgeAllOrders={purgeAllOrders}
+          resetOrderNumber={resetOrderNumber}
+          onLogout={logout}
+        />
       )}
     </div>
   );

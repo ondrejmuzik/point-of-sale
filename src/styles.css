@@ -523,13 +523,18 @@ button.delete {
 }
 
 /* ============================================
-   HEADER LOGOUT BUTTON
+   HEADER SETTINGS BUTTON
    ============================================ */
-.header-logout-button {
+.header-settings-button {
   position: absolute;
-  right: .5rem;
-  top: .5rem;
-  background: #b53839;
-  border: none;
-  box-shadow: none;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: none !important;
+  transition: all 0.3s ease;
+}
+
+.header-settings-button:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: rotate(90deg);
 }
