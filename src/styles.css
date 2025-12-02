@@ -15,6 +15,15 @@
   }
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ============================================
    SUCCESS MESSAGE OVERLAY
    ============================================ */
@@ -31,6 +40,36 @@
 
 .success-overlay .notification {
   animation: bounce 1s ease-in-out;
+}
+
+/* ============================================
+   OFFLINE BANNER
+   ============================================ */
+.offline-banner {
+  position: fixed;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  z-index: 2000;
+  margin: 0;
+  border-radius: .375rem .375rem 0 0;
+  text-align: center;
+}
+
+.offline-banner__sync-icon {
+  display: inline-block;
+  margin-right: 0.25rem;
+  font-size: 1.5rem;
+  animation: spin 1s linear infinite;
+  transform-origin: 43% 57%;
+}
+
+.offline-banner__warning-icon {
+  margin-right: 0.5rem;
+}
+
+.offline-banner__sync-button {
+  font-weight: bold;
 }
 
 /* ============================================

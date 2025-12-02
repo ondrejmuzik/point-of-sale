@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useStorage } from './useStorage';
+import { useNetworkStatus } from './useNetworkStatus';
+import {
+  addToSyncQueue,
+  getOfflineOrders,
+  saveOfflineOrder
+} from '../utils/offlineStorage';
 
 export const useOrders = () => {
   const [orders, setOrders] = useState([]);
   const [orderNumber, setOrderNumber] = useState(1);
   const [loading, setLoading] = useState(true);
   const storage = useStorage();
+  const { isOnline } = useNetworkStatus();
 
   useEffect(() => {
     loadData();
@@ -49,12 +56,16 @@ export const useOrders = () => {
 
       if (error) throw error;
 
-      if (data) {
-        setOrders(data);
-      }
+      // Merge online orders with offline orders
+      const offlineOrders = getOfflineOrders();
+      const allOrders = [...(data || []), ...offlineOrders];
+      setOrders(allOrders);
     } catch (error) {
       console.error('Failed to load orders:', error);
-      setOrders([]);
+
+      // If loading fails, show only offline orders
+      const offlineOrders = getOfflineOrders();
+      setOrders(offlineOrders);
     }
   };
 
@@ -71,37 +82,54 @@ export const useOrders = () => {
   };
 
   const addOrder = async (cart, getTotal, isStaffOrder = false, note = '') => {
-    try {
-      // Prepare order items
-      const orderItems = [];
-      cart.forEach(item => {
-        if (!item.isReturn) {
-          for (let i = 0; i < item.quantity; i++) {
-            orderItems.push({
-              ...item,
-              quantity: 1,
-              ready: false,
-              itemId: `${Date.now()}-${Math.random()}-${i}`
-            });
-          }
+    // Prepare order items
+    const orderItems = [];
+    cart.forEach(item => {
+      if (!item.isReturn) {
+        for (let i = 0; i < item.quantity; i++) {
+          orderItems.push({
+            ...item,
+            quantity: 1,
+            ready: false,
+            itemId: `${Date.now()}-${Math.random()}-${i}`
+          });
         }
+      }
+    });
+
+    const newOrder = {
+      id: Date.now(),
+      order_number: null, // Will be assigned by server during sync
+      items: orderItems,
+      total: getTotal(),
+      timestamp: new Date().toLocaleTimeString(),
+      completed: false,
+      is_staff_order: isStaffOrder,
+      note: note.trim()
+    };
+
+    if (!isOnline) {
+      // Offline: Save to localStorage and queue for sync
+      saveOfflineOrder(newOrder);
+      addToSyncQueue({
+        id: `sync-${Date.now()}-${Math.random()}`,
+        type: 'CREATE_ORDER',
+        payload: newOrder,
+        timestamp: Date.now(),
+        retries: 0
       });
 
-      const newOrder = {
-        id: Date.now(),
-        order_number: orderNumber,
-        items: orderItems,
-        total: getTotal(),
-        timestamp: new Date().toLocaleTimeString(),
-        completed: false,
-        is_staff_order: isStaffOrder,
-        note: note.trim()
-      };
+      // Manually add to local state for immediate UI update
+      setOrders(prev => [...prev, newOrder]);
+      return;
+    }
 
-      // Insert into Supabase
+    try {
+      // Online: Normal Supabase insert with order number
+      const orderWithNumber = { ...newOrder, order_number: orderNumber };
       const { error } = await supabase
         .from('orders')
-        .insert([newOrder]);
+        .insert([orderWithNumber]);
 
       if (error) throw error;
 
@@ -113,7 +141,19 @@ export const useOrders = () => {
       await loadOrders();
     } catch (error) {
       console.error('Failed to add order:', error);
-      throw error;
+
+      // If online insert failed, fall back to offline mode
+      saveOfflineOrder(newOrder);
+      addToSyncQueue({
+        id: `sync-${Date.now()}-${Math.random()}`,
+        type: 'CREATE_ORDER',
+        payload: newOrder,
+        timestamp: Date.now(),
+        retries: 0
+      });
+
+      // Manually add to local state for immediate UI update
+      setOrders(prev => [...prev, newOrder]);
     }
   };
 
@@ -255,6 +295,7 @@ export const useOrders = () => {
     getOrdersForExport,
     purgeAllOrders,
     resetOrderNumber,
-    loading
+    loading,
+    loadOrders
   };
 };

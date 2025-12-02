@@ -22,7 +22,8 @@ const POSView = ({
   onShowQRCode,
   getTotal,
   isStaffOrder,
-  onToggleStaffOrder
+  onToggleStaffOrder,
+  isOnline
 }) => {
   // Sort cart items based on product grid order and filter out auto cups
   const getSortedCart = () => {
@@ -118,8 +119,8 @@ const POSView = ({
               <div className="order-summary__inner">
                 <h2 className="order-summary__title">
                   {editingOrder
-                    ? `Úprava objednávky${orderNumber ? ` #${orderNumber}` : ''}`
-                    : `Objednávka${cart.length > 0 && orderNumber ? ` #${orderNumber}` : ''}`
+                    ? `Úprava objednávky${editingOrder.order_number ? ` #${editingOrder.order_number}` : ''}`
+                    : `Objednávka${cart.length > 0 && isOnline && orderNumber ? ` #${orderNumber}` : ''}`
                   }
                 </h2>
 

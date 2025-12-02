@@ -69,10 +69,13 @@ const PendingOrderCard = ({
 
   const sortedAndGroupedItems = getSortedAndGroupedItems();
 
+  const isOfflineOrder = order.order_number === null;
+
   return (
     <article className="box order-card has-background-warning-light">
-      <h3 className="title is-4 mb-4" style={{ color: '#b53839' }}>
-        Objednávka #{order.order_number}
+      <h3 className="title is-4 mb-4" style={{ color: '#b53839', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        Objednávka{order.order_number ? ` #${order.order_number}` : ''}
+        {isOfflineOrder && <span className="tag is-info">Offline</span>}
       </h3>
       <header className="level is-mobile mb-4">
         <div className="level-left">
@@ -126,6 +129,8 @@ const PendingOrderCard = ({
           onClick={() => onComplete(order)}
           className="button is-large is-success"
           style={{ flex: 1 }}
+          disabled={isOfflineOrder}
+          title={isOfflineOrder ? 'Počkejte na synchronizaci' : ''}
         >
           <span>Uzavřít<span className="is-hidden-mobile"> objednávku</span></span>
         </button>
@@ -137,6 +142,8 @@ const PendingOrderCard = ({
             <button
               onClick={() => onEdit(order)}
               className="button is-warning"
+              disabled={isOfflineOrder}
+              title={isOfflineOrder ? 'Počkejte na synchronizaci' : ''}
             >
               Upravit objednávku
             </button>
@@ -147,6 +154,8 @@ const PendingOrderCard = ({
             <button
               onClick={() => onDelete(order)}
               className="button is-danger has-text-white"
+              disabled={isOfflineOrder}
+              title={isOfflineOrder ? 'Počkejte na synchronizaci' : ''}
             >
               &times;️
             </button>

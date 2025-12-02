@@ -7,7 +7,8 @@ const SettingsView = ({
   getOrdersForExport,
   purgeAllOrders,
   resetOrderNumber,
-  onLogout
+  onLogout,
+  isOnline
 }) => {
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
@@ -56,6 +57,14 @@ const SettingsView = ({
                 <tr>
                   <td><strong>Verze</strong></td>
                   <td>1.0.0</td>
+                </tr>
+                <tr>
+                  <td><strong>Stav</strong></td>
+                  <td>
+                    <span className={`tag ${isOnline ? 'is-success' : 'is-warning'}`}>
+                      {isOnline ? 'Online' : 'Offline'}
+                    </span>
+                  </td>
                 </tr>
               </tbody>
             </table>

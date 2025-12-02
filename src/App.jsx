@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOrders } from './hooks/useOrders';
 import { useCart } from './hooks/useCart';
 import { useWakeLock } from './hooks/useWakeLock';
 import { useAuth } from './hooks/useAuth';
+import { useNetworkStatus } from './hooks/useNetworkStatus';
+import { useSyncManager } from './hooks/useSyncManager';
 import Header from './components/ui/Header';
 import TabNavigation from './components/ui/TabNavigation';
 import POSView from './components/views/POSView';
@@ -13,6 +15,7 @@ import ConfirmModal from './components/modals/ConfirmModal';
 import SuccessMessage from './components/modals/SuccessMessage';
 import PaymentQRCode from './components/modals/PaymentQRCode';
 import PasswordModal from './components/modals/PasswordModal';
+import OfflineBanner from './components/ui/OfflineBanner';
 
 const BeveragePOS = () => {
   const [activeTab, setActiveTab] = useState('pos');
@@ -41,8 +44,13 @@ const BeveragePOS = () => {
     updateOrderNote,
     getOrdersForExport,
     purgeAllOrders,
-    resetOrderNumber
+    resetOrderNumber,
+    loadOrders
   } = useOrders();
+
+  // Network status and sync management
+  const { isOnline } = useNetworkStatus();
+  const { syncPendingOperations, isSyncing, pendingCount } = useSyncManager(loadOrders);
 
   const {
     cart,
@@ -120,6 +128,13 @@ const BeveragePOS = () => {
     clearCart();
   };
 
+  // Auto-sync when connection returns
+  useEffect(() => {
+    if (isOnline && pendingCount > 0) {
+      syncPendingOperations();
+    }
+  }, [isOnline, pendingCount, syncPendingOperations]);
+
   // Show password modal if not authenticated
   if (!isAuthenticated) {
     return <PasswordModal onSubmit={login} />;
@@ -128,6 +143,14 @@ const BeveragePOS = () => {
   return (
     <div className="app has-background-light" style={{ minHeight: '100vh' }} data-theme="light">
       <Header onSettingsClick={() => setActiveTab('settings')} />
+
+      {!isOnline && (
+        <OfflineBanner
+          pendingCount={pendingCount}
+          isSyncing={isSyncing}
+          onManualSync={syncPendingOperations}
+        />
+      )}
 
       <TabNavigation
         activeTab={activeTab}
@@ -175,6 +198,7 @@ const BeveragePOS = () => {
           getTotal={getTotal}
           isStaffOrder={isStaffOrder}
           onToggleStaffOrder={() => setIsStaffOrder(!isStaffOrder)}
+          isOnline={isOnline}
         />
       )}
 
@@ -200,6 +224,7 @@ const BeveragePOS = () => {
           purgeAllOrders={purgeAllOrders}
           resetOrderNumber={resetOrderNumber}
           onLogout={logout}
+          isOnline={isOnline}
         />
       )}
     </div>
