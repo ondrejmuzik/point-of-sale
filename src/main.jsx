@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import 'bulma/css/bulma.min.css'
+import 'bulma/css/versions/bulma-no-dark-mode.min.css'
 import './index.css'
 import './styles.css'
 import App from './App.jsx'
