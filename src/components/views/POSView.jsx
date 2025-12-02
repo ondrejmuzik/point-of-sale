@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { products, cupDeposit } from '../../constants/products';
 import ProductButton from '../ui/ProductButton';
 import CartItem from '../ui/CartItem';
+import PaymentConfirmModal from '../modals/PaymentConfirmModal';
 import cupIcon from '../../assets/cup.svg';
 import cupReturnIcon from '../../assets/cup-return.svg';
 import qrCodeIcon from '../../assets/qr-code.svg';
@@ -25,6 +26,8 @@ const POSView = ({
   onToggleStaffOrder,
   isOnline
 }) => {
+  const [showPaymentConfirm, setShowPaymentConfirm] = useState(false);
+
   // Sort cart items based on product grid order and filter out auto cups
   const getSortedCart = () => {
     const productOrder = products.map(p => p.id);
@@ -67,8 +70,26 @@ const POSView = ({
 
   // Handle order completion with scroll to top
   const handleCompleteOrder = () => {
+    // For editing orders, complete immediately without confirmation
+    if (editingOrder) {
+      onCompleteOrder();
+      scrollToTop();
+    } else {
+      // For new orders, show payment confirmation modal
+      setShowPaymentConfirm(true);
+    }
+  };
+
+  // Handle payment confirmation
+  const handlePaymentConfirmed = () => {
+    setShowPaymentConfirm(false);
     onCompleteOrder();
     scrollToTop();
+  };
+
+  // Handle payment confirmation cancellation
+  const handlePaymentCancelled = () => {
+    setShowPaymentConfirm(false);
   };
 
   return (
@@ -235,6 +256,15 @@ const POSView = ({
             </button>
           </div>
         </div>
+      )}
+
+      {/* Payment Confirmation Modal */}
+      {showPaymentConfirm && (
+        <PaymentConfirmModal
+          amount={getTotal()}
+          onConfirm={handlePaymentConfirmed}
+          onCancel={handlePaymentCancelled}
+        />
       )}
     </section>
   );
