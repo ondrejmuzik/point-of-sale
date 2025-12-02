@@ -82,15 +82,15 @@ const StatisticsView = ({ orders }) => {
         <div className="columns mb-5">
           <div className="column">
             <div className="box has-text-centered">
-              <p className="heading">Prodané položky</p>
-              <p className="title is-1 has-text-info">{stats.totalItemsSold}</p>
+              <p className="heading">Objednávky</p>
+              <p className="title is-1 has-text-danger">{stats.totalOrders}</p>
             </div>
           </div>
 
           <div className="column">
             <div className="box has-text-centered">
-              <p className="heading">Objednávky</p>
-              <p className="title is-1 has-text-danger">{stats.totalOrders}</p>
+              <p className="heading">Prodané položky</p>
+              <p className="title is-1 has-text-info">{stats.totalItemsSold}</p>
             </div>
           </div>
 
@@ -107,15 +107,15 @@ const StatisticsView = ({ orders }) => {
         <div className="columns mb-5">
           <div className="column">
             <div className="box has-text-centered">
-              <p className="heading">Bezplatně vydané položky</p>
-              <p className="title is-1 has-text-warning">{stats.staffItemsCount}</p>
+              <p className="heading">Interní objednávky</p>
+              <p className="title is-1 has-text-warning">{stats.staffOrderCount}</p>
             </div>
           </div>
 
           <div className="column">
             <div className="box has-text-centered">
-              <p className="heading">Interní objednávky</p>
-              <p className="title is-1 has-text-warning">{stats.staffOrderCount}</p>
+              <p className="heading">Bezplatně vydané položky</p>
+              <p className="title is-1 has-text-warning">{stats.staffItemsCount}</p>
             </div>
           </div>
         </div>
@@ -150,6 +150,11 @@ const StatisticsView = ({ orders }) => {
 
                   <div className="columns">
                     <div className="column">
+                      <p className="has-text-grey">Celkem:</p>
+                      <p className="title is-4 has-text-danger">{totalCount}</p>
+                    </div>
+
+                    <div className="column">
                       <p className="has-text-grey">Prodané kusy:</p>
                       <p className="title is-4 has-text-info">{count}</p>
                     </div>
@@ -160,18 +165,13 @@ const StatisticsView = ({ orders }) => {
                     </div>
 
                     <div className="column">
-                      <p className="has-text-grey">Celkem:</p>
-                      <p className="title is-4">{totalCount}</p>
-                    </div>
-
-                    <div className="column">
                       <p className="has-text-grey">Obrat:</p>
                       <p className="title is-4 has-text-success">{revenue.toFixed(0)},-</p>
                     </div>
                   </div>
 
                   <progress
-                    className="progress is-danger"
+                    className="progress is-primary"
                     value={percentage}
                     max="100"
                   >
