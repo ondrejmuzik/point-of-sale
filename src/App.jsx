@@ -141,7 +141,7 @@ const BeveragePOS = () => {
   }
 
   return (
-    <div className="app has-background-light" style={{ minHeight: '100vh' }}>
+    <div className="app has-background-light">
       <Header onSettingsClick={() => setActiveTab('settings')} />
 
       {!isOnline && (
