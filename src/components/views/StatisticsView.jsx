@@ -215,6 +215,12 @@ const StatisticsView = ({ orders }) => {
             <p>Statistiky se zobrazí po vytvoření objednávek.</p>
           </div>
         )}
+
+        <div className="notification is-info is-light mt-5">
+          <p className="has-text-centered">
+            <strong>Poznámka:</strong> Vratné kelímky nejsou započítány do tržeb.
+          </p>
+        </div>
       </div>
     </section>
   );

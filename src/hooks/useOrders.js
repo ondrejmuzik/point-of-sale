@@ -85,15 +85,13 @@ export const useOrders = () => {
     // Prepare order items
     const orderItems = [];
     cart.forEach(item => {
-      if (!item.isReturn) {
-        for (let i = 0; i < item.quantity; i++) {
-          orderItems.push({
-            ...item,
-            quantity: 1,
-            ready: false,
-            itemId: `${Date.now()}-${Math.random()}-${i}`
-          });
-        }
+      for (let i = 0; i < item.quantity; i++) {
+        orderItems.push({
+          ...item,
+          quantity: 1,
+          ready: false,
+          itemId: `${Date.now()}-${Math.random()}-${i}`
+        });
       }
     });
 
@@ -162,15 +160,13 @@ export const useOrders = () => {
       // Prepare order items
       const orderItems = [];
       cart.forEach(item => {
-        if (!item.isReturn) {
-          for (let i = 0; i < item.quantity; i++) {
-            orderItems.push({
-              ...item,
-              quantity: 1,
-              ready: false,
-              itemId: `${Date.now()}-${Math.random()}-${i}`
-            });
-          }
+        for (let i = 0; i < item.quantity; i++) {
+          orderItems.push({
+            ...item,
+            quantity: 1,
+            ready: false,
+            itemId: `${Date.now()}-${Math.random()}-${i}`
+          });
         }
       });
 

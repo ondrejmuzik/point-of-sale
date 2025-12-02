@@ -16,7 +16,7 @@ const PendingOrderCard = ({
     const beverages = items.filter(item => productIds.includes(item.id));
     const cups = items.filter(item => item.id === 'cup');
     const extraCups = items.filter(item => item.id === 'cup-extra');
-    const cupReturns = items.filter(item => item.id === 'cup-return');
+    const cupReturns = items.filter(item => item.id === 'return');
 
     const groupedItems = [];
     const usedCupIds = new Set();
@@ -58,7 +58,7 @@ const PendingOrderCard = ({
     });
     orderMap['cup'] = productIds.length;
     orderMap['cup-extra'] = productIds.length;
-    orderMap['cup-return'] = productIds.length + 1;
+    orderMap['return'] = productIds.length + 1;
 
     return groupedItems.sort((a, b) => {
       const orderA = orderMap[a.id] ?? 999;
@@ -102,10 +102,21 @@ const PendingOrderCard = ({
             key={item.itemId}
             className="order-list-item"
           >
-            <span style={{ fontSize: '1.1rem' }}>
-              {item.name}
-              {item.isGrouped && <span style={{ opacity: 0.6, marginLeft: '0.5rem' }}>+ Kelímek</span>}
-            </span>
+            <div className="level is-mobile">
+              <div className="level-left">
+                <div className="level-item">
+                  <span style={{ fontSize: '1.1rem', opacity: item.id === 'return' ? 0.6 : 1, fontWeight: item.isGrouped || products.map(p => p.id).includes(item.id) ? 'bold' : 'normal' }}>
+                    {item.name}
+                    {item.isGrouped && <span style={{ opacity: 0.6, marginLeft: '0.5rem', fontWeight: 'normal' }}>+ Kelímek</span>}
+                  </span>
+                </div>
+              </div>
+              <div className="level-right">
+                <div className="level-item">
+                  <span style={{ fontSize: '1.1rem', opacity: item.id === 'return' ? 0.6 : 1, fontWeight: 'bold' }}>{item.price.toFixed(0)},-</span>
+                </div>
+              </div>
+            </div>
           </div>
         ))}
       </div>

@@ -11,7 +11,7 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
     const beverages = items.filter(item => productIds.includes(item.id));
     const cups = items.filter(item => item.id === 'cup');
     const extraCups = items.filter(item => item.id === 'cup-extra');
-    const cupReturns = items.filter(item => item.id === 'cup-return');
+    const cupReturns = items.filter(item => item.id === 'return');
 
     const groupedItems = [];
     const usedCupIds = new Set();
@@ -50,7 +50,7 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
     });
     orderMap['cup'] = productIds.length;
     orderMap['cup-extra'] = productIds.length;
-    orderMap['cup-return'] = productIds.length + 1;
+    orderMap['return'] = productIds.length + 1;
 
     return groupedItems.sort((a, b) => {
       const orderA = orderMap[a.id] ?? 999;
@@ -63,23 +63,23 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
 
   return (
     <article className="box order-card has-background-grey-lighter" style={{ opacity: 0.8 }}>
+      <h3 className="title is-5 mb-3 has-text-grey">
+        Objednávka #{order.order_number}
+      </h3>
       <header className="level is-mobile mb-3">
         <div className="level-left">
           <div className="level-item">
             <div>
-              <h3 className="title is-5 has-text-grey">
-                Objednávka #{order.order_number}
-              </h3>
-              <p className="subtitle is-6 has-text-grey-light">{order.timestamp}</p>
+              <p className="subtitle is-6 has-text-grey">{order.timestamp}</p>
             </div>
           </div>
         </div>
         <div className="level-right">
           <div className="level-item">
             {order.is_staff_order ? (
-              <span className="tag is-white">INTERNÍ</span>
+              <span className="tag is-info is-light">INTERNÍ</span>
             ) : (
-              <p className="title is-4 has-text-grey">{order.total},-</p>
+              <p className="title is-6 has-text-grey">{order.total},-</p>
             )}
           </div>
         </div>
@@ -91,15 +91,15 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
             <div className="level is-mobile">
               <div className="level-left">
                 <div className="level-item">
-                  <span className="has-text-grey">
+                  <span className="has-text-grey" style={{ opacity: item.id === 'return' ? 0.6 : 1, fontWeight: item.isGrouped || products.map(p => p.id).includes(item.id) ? 'bold' : 'normal' }}>
                     {item.name}
-                    {item.isGrouped && <span style={{ opacity: 0.6, marginLeft: '0.5rem' }}>+ Kelímek</span>}
+                    {item.isGrouped && <span style={{ opacity: 0.6, marginLeft: '0.5rem', fontWeight: 'normal' }}>+ Kelímek</span>}
                   </span>
                 </div>
               </div>
               <div className="level-right">
                 <div className="level-item">
-                  <span className="has-text-grey has-text-weight-semibold">{item.price.toFixed(0)},-</span>
+                  <span className="has-text-grey has-text-weight-semibold" style={{ opacity: item.id === 'return' ? 0.6 : 1 }}>{item.price.toFixed(0)},-</span>
                 </div>
               </div>
             </div>
