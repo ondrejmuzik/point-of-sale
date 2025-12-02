@@ -54,6 +54,7 @@ const PaymentQRCode = ({ amount, orderNumber, onClose }) => {
             <div className="box has-background-white-ter">
               <p><strong>Částka:</strong> {amount.toFixed(0)},- Kč</p>
               <p><strong>Variabilní symbol:</strong> {orderNumber}</p>
+              <p><strong>Č. účtu:</strong> {paymentConfig.accountNumber}</p>
               <p><strong>Příjemce:</strong> {paymentConfig.beneficiary}</p>
             </div>
           </div>

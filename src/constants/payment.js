@@ -15,7 +15,7 @@ export const paymentConfig = {
   currency: 'CZK',
 
   // Payment message prefix
-  messagePrefix: 'Čertovský svařáček',
+  messagePrefix: 'Čertovský svařáček 2025',
 };
 
 /**
