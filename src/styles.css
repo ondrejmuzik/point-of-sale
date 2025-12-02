@@ -498,8 +498,8 @@ button.delete {
 }
 
 .cart-summary-fixed__amount--negative {
-  background: rgba(255, 255, 255, 0.3);
-  color: #ffeb3b;
+  background: rgba(255, 255, 255, 0.8);
+  color: #f00;
 }
 
 .cart-summary-fixed__pay-button {
