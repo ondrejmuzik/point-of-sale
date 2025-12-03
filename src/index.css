@@ -12,8 +12,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* --bulma-radius: 0; */
-
 }
 
 a {
@@ -30,9 +28,7 @@ body {
   font-weight: 400;
 
   margin: 0 auto;
-  /* display: flex;
-  place-items: center; */
-  max-width: 810px;
+  max-width: 1080px;
   min-width: 320px;
   min-height: 100vh;
 }
