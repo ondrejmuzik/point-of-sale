@@ -100,7 +100,7 @@ export const useOrders = () => {
       order_number: null, // Will be assigned by server during sync
       items: orderItems,
       total: getTotal(),
-      timestamp: new Date().toLocaleTimeString(),
+      timestamp: new Date().toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit', hour12: false }),
       completed: false,
       is_staff_order: isStaffOrder,
       note: note.trim()
@@ -176,7 +176,7 @@ export const useOrders = () => {
         .update({
           items: orderItems,
           total: getTotal(),
-          timestamp: new Date().toLocaleTimeString(),
+          timestamp: new Date().toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit', hour12: false }),
           note: note.trim()
         })
         .eq('id', orderId);
