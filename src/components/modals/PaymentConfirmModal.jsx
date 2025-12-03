@@ -21,6 +21,10 @@ const PaymentConfirmModal = ({ amount, onCancel, onConfirm, message = 'Přijali 
   const amountValue = parseFloat(amount);
   const isNegative = amountValue < 0;
 
+  // Adjust message and button text based on amount sign
+  const displayMessage = isNegative ? 'Vydali jste peníze?' : message;
+  const confirmButtonText = isNegative ? 'Ano, vydáno' : 'Ano, přijato';
+
   return (
     <div className="modal is-active">
       <div className="modal-background" onClick={onCancel}></div>
@@ -32,7 +36,7 @@ const PaymentConfirmModal = ({ amount, onCancel, onConfirm, message = 'Přijali 
           <button className="delete" aria-label="close" onClick={onCancel}></button>
         </header>
         <section className="modal-card-body has-text-centered">
-          <p className="is-size-5 mb-5">{message}</p>
+          <p className="is-size-5 mb-5">{displayMessage}</p>
           <p className={`is-size-1 has-text-weight-bold ${isNegative ? 'has-text-danger' : 'has-text-success'}`}>
             {amount},-
           </p>
@@ -42,7 +46,7 @@ const PaymentConfirmModal = ({ amount, onCancel, onConfirm, message = 'Přijali 
             onClick={onConfirm}
             className="button is-success is-large has-text-white is-fullwidth mb-3"
           >
-            Ano, přijato
+            {confirmButtonText}
           </button>
           <button
             onClick={onCancel}
