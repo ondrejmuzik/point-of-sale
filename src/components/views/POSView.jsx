@@ -170,7 +170,7 @@ const POSView = ({
                       <div className="control">
                         <input
                           type="text"
-                          className="input is-small"
+                          className="input"
                           placeholder="Poznámka"
                           value={orderNote}
                           onChange={(e) => onOrderNoteChange(e.target.value)}
