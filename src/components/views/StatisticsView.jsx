@@ -207,6 +207,9 @@ const StatisticsView = ({ orders }) => {
               </div>
             )}
           </div>
+          <p className="has-text-grey has-text-centered mt-4" style={{ fontSize: '0.875rem' }}>
+            Průměry nezohledňují interní objednávky
+          </p>
         </div>
 
         {stats.totalOrders === 0 && (
