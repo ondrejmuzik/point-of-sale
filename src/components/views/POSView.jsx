@@ -70,8 +70,8 @@ const POSView = ({
 
   // Handle order completion with scroll to top
   const handleCompleteOrder = () => {
-    // For editing orders, complete immediately without confirmation
-    if (editingOrder) {
+    // For editing orders or staff orders, complete immediately without confirmation
+    if (editingOrder || isStaffOrder) {
       onCompleteOrder();
       scrollToTop();
     } else {
@@ -259,7 +259,7 @@ const POSView = ({
       )}
 
       {/* Payment Confirmation Modal */}
-      {showPaymentConfirm && (
+      {showPaymentConfirm && !isStaffOrder && (
         <PaymentConfirmModal
           amount={getTotal()}
           onConfirm={handlePaymentConfirmed}
