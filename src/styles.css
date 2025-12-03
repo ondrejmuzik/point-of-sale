@@ -590,3 +590,10 @@ button.delete {
 .header-settings-button:hover {
   transform: rotate(90deg);
 }
+
+/* ============================================
+   STATISTICS VIEW
+   ============================================ */
+.product-stat-item:not(:last-child) {
+  border-bottom: 1px solid #dbdbdb;
+}

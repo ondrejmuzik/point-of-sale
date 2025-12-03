@@ -134,7 +134,7 @@ const StatisticsView = ({ orders }) => {
                 : 0;
 
               return (
-                <article key={product.id} className="mb-5 pb-4" style={{ borderBottom: '1px solid #dbdbdb' }}>
+                <article key={product.id} className="product-stat-item mb-5 pb-4">
                   <div className="level is-mobile mb-2">
                     <div className="level-left">
                       <div className="level-item">
@@ -181,6 +181,9 @@ const StatisticsView = ({ orders }) => {
               );
             })}
           </div>
+          <p className="notification has-text-grey has-text-centered">
+            Zálohy za kelímky nejsou započítávány do&nbsp;obratu.
+          </p>
         </div>
 
         <div className="box">
@@ -207,8 +210,8 @@ const StatisticsView = ({ orders }) => {
               </div>
             )}
           </div>
-          <p className="has-text-grey has-text-centered mt-4" style={{ fontSize: '0.875rem' }}>
-            Průměry zohledňují pouze placené objednávky
+          <p className="notification has-text-grey has-text-centered">
+            Průměry zohledňují pouze placené objednávky.
           </p>
         </div>
 
@@ -219,11 +222,6 @@ const StatisticsView = ({ orders }) => {
           </div>
         )}
 
-        <div className="notification is-info is-light mt-5">
-          <p className="has-text-centered">
-            <strong>Poznámka:</strong> Vratné kelímky nejsou započítány do tržeb.
-          </p>
-        </div>
       </div>
     </section>
   );
