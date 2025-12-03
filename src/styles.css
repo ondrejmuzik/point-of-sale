@@ -463,6 +463,7 @@ button.delete {
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   padding: 1rem 1.5rem;
+  cursor: pointer;
 }
 
 .cart-summary-fixed__content {
@@ -478,16 +479,6 @@ button.delete {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.cart-summary-fixed__total:hover {
-  transform: scale(1.05);
-}
-
-.cart-summary-fixed__total:active {
-  transform: scale(0.95);
 }
 
 .cart-summary-fixed__label {
@@ -509,20 +500,48 @@ button.delete {
   color: #f00;
 }
 
-.cart-summary-fixed__pay-button {
-  font-size: 1.25rem;
+.cart-summary-fixed__action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.95);
+  color: #c85a54;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: #c85a54 !important;
-  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   transition: all 0.2s ease;
 }
 
-.cart-summary-fixed__pay-button:hover {
-  background: white !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes flash-attention {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  25%, 75% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(200, 90, 84, 0.6), 0 0 40px rgba(200, 90, 84, 0.4);
+  }
+  50% {
+    transform: scale(1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.order-summary__complete-button.flash-attention {
+  animation: flash-attention 1s ease-in-out 2;
 }
 
 @media screen and (max-width: 768px) {
@@ -543,9 +562,16 @@ button.delete {
     padding: 0.2rem 0.6rem;
   }
 
-  .cart-summary-fixed__pay-button {
-    font-size: 1.1rem;
-    padding: 0.75rem 1.5rem;
+  .cart-summary-fixed__action {
+    padding: 0.6rem 1.2rem;
+  }
+
+  .cart-summary-fixed__action-icon {
+    font-size: 1.3rem;
+  }
+
+  .cart-summary-fixed__action-text {
+    font-size: 0.75rem;
   }
 }
 
