@@ -23,13 +23,12 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
 
       if (matchingCup) {
         usedCupIds.add(matchingCup.itemId);
-        // Create a grouped item
+        // Create a grouped item with both beverage and cup
         groupedItems.push({
           itemId: `${beverage.itemId}-grouped`,
-          id: beverage.id,
-          name: beverage.name,
-          price: beverage.price + matchingCup.price,
-          isGrouped: true
+          isGrouped: true,
+          beverage: beverage,
+          cup: matchingCup
         });
       } else {
         // No cup available, show beverage alone
@@ -53,8 +52,8 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
     orderMap['return'] = productIds.length + 1;
 
     return groupedItems.sort((a, b) => {
-      const orderA = orderMap[a.id] ?? 999;
-      const orderB = orderMap[b.id] ?? 999;
+      const orderA = orderMap[a.isGrouped ? a.beverage.id : a.id] ?? 999;
+      const orderB = orderMap[b.isGrouped ? b.beverage.id : b.id] ?? 999;
       return orderA - orderB;
     });
   };
@@ -88,21 +87,55 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
       <div className="order-items mb-3">
         {sortedAndGroupedItems.map((item, idx) => (
           <div key={item.itemId || idx} className="box is-size-7 py-2 px-3 mb-1 has-background-white">
-            <div className="level is-mobile">
-              <div className="level-left">
-                <div className="level-item">
-                  <span className="has-text-grey" style={{ opacity: item.id === 'return' ? 0.6 : 1, fontWeight: item.isGrouped || products.map(p => p.id).includes(item.id) ? 'bold' : 'normal' }}>
-                    {item.name}
-                    {item.isGrouped && <span style={{ opacity: 0.6, marginLeft: '0.5rem', fontWeight: 'normal' }}>+ Kelímek</span>}
-                  </span>
+            {item.isGrouped ? (
+              // Grouped beverage + cup: show on separate lines
+              <>
+                <div className="level is-mobile" style={{ marginBottom: '0.25rem' }}>
+                  <div className="level-left">
+                    <div className="level-item">
+                      <span className="has-text-grey has-text-weight-bold">
+                        {item.beverage.name}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="level-right">
+                    <div className="level-item">
+                      <span className="has-text-grey has-text-weight-semibold">{item.beverage.price.toFixed(0)},-</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="level is-mobile">
+                  <div className="level-left">
+                    <div className="level-item">
+                      <span className="has-text-grey">
+                        Kelímek
+                      </span>
+                    </div>
+                  </div>
+                  <div className="level-right">
+                    <div className="level-item">
+                      <span className="has-text-grey">{item.cup.price.toFixed(0)},-</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              // Non-grouped item: show normally
+              <div className="level is-mobile">
+                <div className="level-left">
+                  <div className="level-item">
+                    <span className="has-text-grey">
+                      {item.name}
+                    </span>
+                  </div>
+                </div>
+                <div className="level-right">
+                  <div className="level-item">
+                    <span className="has-text-grey has-text-weight-semibold" style={{ opacity: item.id === 'return' ? 0.6 : 1 }}>{item.price.toFixed(0)},-</span>
+                  </div>
                 </div>
               </div>
-              <div className="level-right">
-                <div className="level-item">
-                  <span className="has-text-grey has-text-weight-semibold" style={{ opacity: item.id === 'return' ? 0.6 : 1 }}>{item.price.toFixed(0)},-</span>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         ))}
       </div>
