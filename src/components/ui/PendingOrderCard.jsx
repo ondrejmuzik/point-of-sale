@@ -140,7 +140,7 @@ const PendingOrderCard = ({
                 </div>
                 <div className="level-right">
                   <div className="level-item">
-                    <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{item.price.toFixed(0)},-</span>
+                    <span style={{ fontSize: '1.1rem' }}>{item.price.toFixed(0)},-</span>
                   </div>
                 </div>
               </div>

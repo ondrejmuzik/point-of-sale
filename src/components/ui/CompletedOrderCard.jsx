@@ -131,7 +131,7 @@ const CompletedOrderCard = ({ order, onReopen, onDelete }) => {
                 </div>
                 <div className="level-right">
                   <div className="level-item">
-                    <span className="has-text-grey has-text-weight-semibold" style={{ opacity: item.id === 'return' ? 0.6 : 1 }}>{item.price.toFixed(0)},-</span>
+                    <span className="has-text-grey">{item.price.toFixed(0)},-</span>
                   </div>
                 </div>
               </div>
