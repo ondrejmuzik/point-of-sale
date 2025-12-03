@@ -78,8 +78,10 @@ const BeveragePOS = () => {
   const completeOrder = async () => {
     if (cart.length === 0) return;
 
+    const wasEditing = !!editingOrder;
+
     if (editingOrder) {
-      await updateOrder(editingOrder.id, cart, getTotal, orderNote);
+      await updateOrder(editingOrder.id, cart, getTotal, isStaffOrder, orderNote);
       setEditingOrder(null);
     } else {
       await addOrder(cart, getTotal, isStaffOrder, orderNote);
@@ -88,7 +90,7 @@ const BeveragePOS = () => {
     clearCart();
     setOrderNote('');
     setIsStaffOrder(false);
-    setShowSuccess(true);
+    setShowSuccess(wasEditing ? 'edited' : 'created');
     setTimeout(() => setShowSuccess(false), 2000);
   };
 
@@ -110,6 +112,7 @@ const BeveragePOS = () => {
   const editOrder = (order) => {
     setEditingOrder(order);
     setOrderNote(order.note || '');
+    setIsStaffOrder(order.is_staff_order || false);
     loadCartFromOrder(order);
     setActiveTab('pos');
 
@@ -168,7 +171,7 @@ const BeveragePOS = () => {
 
       {showSuccess && (
         <SuccessMessage
-          message={editingOrder ? 'Objednávka upravena!' : 'Objednávka vytvořena!'}
+          message={showSuccess === 'edited' ? 'Objednávka upravena!' : 'Objednávka vytvořena!'}
         />
       )}
 

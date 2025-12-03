@@ -155,7 +155,7 @@ export const useOrders = () => {
     }
   };
 
-  const updateOrder = async (orderId, cart, getTotal, note = '') => {
+  const updateOrder = async (orderId, cart, getTotal, isStaffOrder, note = '') => {
     try {
       // Prepare order items
       const orderItems = [];
@@ -177,6 +177,7 @@ export const useOrders = () => {
           items: orderItems,
           total: getTotal(),
           timestamp: new Date().toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit', hour12: false }),
+          is_staff_order: isStaffOrder,
           note: note.trim()
         })
         .eq('id', orderId);
