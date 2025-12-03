@@ -467,7 +467,7 @@ button.delete {
   background: linear-gradient(135deg, #c85a54 0%, #b84a44 100%);
   color: white;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  z-index: 30;
   padding: 1rem 1.5rem;
 }
 
