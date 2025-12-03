@@ -206,6 +206,12 @@
   border: 3px dashed #c85a54;
 }
 
+@media screen and (max-width: 768px) {
+  .order-summary__inner {
+    padding: 1.5rem 1rem;
+  }
+}
+
 .order-summary__title {
   color: #c85a54;
   font-size: 1.75rem;
@@ -285,7 +291,7 @@
 }
 
 .order-summary__item--cup .order-summary__item-name {
-  color: #81a17e;
+  color: #8b9da8;
 }
 
 .order-summary__item--grouped-cup {
