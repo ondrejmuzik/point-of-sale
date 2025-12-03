@@ -148,18 +148,26 @@ export const useCart = () => {
         );
 
         // Remove beverages proportionally (remove all if cups go to 0)
-        if (quantityChange !== 0) {
+        if (quantityChange < 0) {  // Only when removing cups
           const beverages = prevCart.filter(cartItem =>
             cartItem.id !== 'cup' && cartItem.id !== 'cup-extra' && cartItem.id !== 'return'
           );
 
-          beverages.forEach(beverage => {
-            updatedCart = updatedCart.map(cartItem =>
-              cartItem.cartKey === beverage.cartKey
-                ? { ...cartItem, quantity: Math.max(0, cartItem.quantity + quantityChange) }
-                : cartItem
-            );
-          });
+          let remainingToRemove = Math.abs(quantityChange);
+
+          // Remove from beverages sequentially until we've removed enough
+          for (const beverage of beverages) {
+            if (remainingToRemove <= 0) break;
+
+            updatedCart = updatedCart.map(cartItem => {
+              if (cartItem.cartKey === beverage.cartKey && remainingToRemove > 0) {
+                const removeAmount = Math.min(cartItem.quantity, remainingToRemove);
+                remainingToRemove -= removeAmount;
+                return { ...cartItem, quantity: cartItem.quantity - removeAmount };
+              }
+              return cartItem;
+            });
+          }
         }
 
         return updatedCart.filter(cartItem => cartItem.quantity > 0);
@@ -218,7 +226,8 @@ export const useCart = () => {
           name: item.name,
           price: item.price,
           quantity: 1,
-          isReturn: false
+          isReturn: item.isReturn || false,
+          isAutoCup: item.isAutoCup || false
         };
       }
     });
