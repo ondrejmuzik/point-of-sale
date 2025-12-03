@@ -73,12 +73,16 @@ CREATE INDEX idx_orders_is_staff_order ON orders(is_staff_order);
 
 -- Add function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
 BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 -- Create trigger to auto-update updated_at in settings
 CREATE TRIGGER update_settings_updated_at
