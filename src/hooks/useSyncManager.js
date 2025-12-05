@@ -10,6 +10,7 @@ import {
   deduplicateQueue,
   getPendingCount
 } from '../utils/offlineStorage';
+import { useStorage } from './useStorage';
 
 const MAX_RETRIES = 5;
 
@@ -20,6 +21,7 @@ export const useSyncManager = (onSyncComplete) => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncError, setSyncError] = useState(null);
   const [pendingCount, setPendingCount] = useState(() => getPendingCount());
+  const storage = useStorage();
 
   /**
    * Update pending count from localStorage (triggers on component mount and periodically)
@@ -47,6 +49,7 @@ export const useSyncManager = (onSyncComplete) => {
         case 'CREATE_ORDER': {
           // For CREATE operations, assign order number if null and insert into Supabase
           let payload = operation.payload;
+          let assignedOrderNumber = payload.order_number;
 
           if (payload.order_number === null) {
             // Get current max order number from Supabase
@@ -57,6 +60,7 @@ export const useSyncManager = (onSyncComplete) => {
               .limit(1);
 
             const nextNumber = data?.[0]?.order_number ? data[0].order_number + 1 : 1;
+            assignedOrderNumber = nextNumber;
             payload = { ...payload, order_number: nextNumber };
           }
 
@@ -65,6 +69,9 @@ export const useSyncManager = (onSyncComplete) => {
             .insert([payload]);
 
           if (error) throw error;
+
+          // Update the settings table with the next order number
+          await storage.set('orderNumber', assignedOrderNumber + 1);
 
           // Remove from offline orders after successful sync
           removeOfflineOrder(operation.payload.id);
@@ -130,7 +137,7 @@ export const useSyncManager = (onSyncComplete) => {
 
       return false;
     }
-  }, []);
+  }, [storage]);
 
   /**
    * Sync all pending operations
