@@ -59,7 +59,7 @@
   right: 1rem;
   z-index: 2000;
   margin: 0;
-  border-radius: .375rem .375rem 0 0;
+  border-radius: .375rem;
   text-align: center;
 }
 
@@ -71,12 +71,17 @@
   transform-origin: 43% 57%;
 }
 
-.offline-banner__warning-icon {
-  margin-right: 0.5rem;
-}
-
 .offline-banner__sync-button {
   font-weight: bold;
+}
+.offline-banner .level-item {
+  gap: .5rem
+}
+
+@media screen and (max-width: 768px) {
+  .offline-banner .level-item {
+    flex-direction: column;
+  }
 }
 
 /* ============================================
