@@ -25,6 +25,7 @@ const BeveragePOS = () => {
   const [showQRCode, setShowQRCode] = useState(false);
   const [isStaffOrder, setIsStaffOrder] = useState(false);
   const [orderNote, setOrderNote] = useState('');
+  const [currentOrderNumber, setCurrentOrderNumber] = useState(null);
 
   // Authentication
   const { isAuthenticated, login, logout } = useAuth();
@@ -34,7 +35,6 @@ const BeveragePOS = () => {
 
   const {
     orders,
-    orderNumber,
     pendingOrders,
     completedOrders,
     addOrder,
@@ -44,8 +44,8 @@ const BeveragePOS = () => {
     updateOrderNote,
     getOrdersForExport,
     purgeAllOrders,
-    resetOrderNumber,
-    loadOrders
+    loadOrders,
+    getNextOrderNumber
   } = useOrders();
 
   // Network status and sync management
@@ -138,6 +138,19 @@ const BeveragePOS = () => {
     }
   }, [isOnline, pendingCount, syncPendingOperations]);
 
+  // Load next order number when cart has items
+  useEffect(() => {
+    const loadOrderNumber = async () => {
+      if (cart.length > 0 && !editingOrder && isOnline) {
+        const nextNum = await getNextOrderNumber();
+        setCurrentOrderNumber(nextNum);
+      } else {
+        setCurrentOrderNumber(null);
+      }
+    };
+    loadOrderNumber();
+  }, [cart.length, editingOrder, isOnline, getNextOrderNumber]);
+
   // Show password modal if not authenticated
   if (!isAuthenticated) {
     return <PasswordModal onSubmit={login} />;
@@ -178,14 +191,14 @@ const BeveragePOS = () => {
       {showQRCode && (
         <PaymentQRCode
           amount={parseFloat(getTotal())}
-          orderNumber={orderNumber}
+          orderNumber={currentOrderNumber}
           onClose={() => setShowQRCode(false)}
         />
       )}
 
       {activeTab === 'pos' && (
         <POSView
-          orderNumber={orderNumber}
+          orderNumber={currentOrderNumber}
           editingOrder={editingOrder}
           cart={cart}
           clickedButton={clickedButton}
@@ -225,7 +238,6 @@ const BeveragePOS = () => {
           orders={orders}
           getOrdersForExport={getOrdersForExport}
           purgeAllOrders={purgeAllOrders}
-          resetOrderNumber={resetOrderNumber}
           onLogout={logout}
           isOnline={isOnline}
         />

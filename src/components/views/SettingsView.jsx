@@ -6,7 +6,6 @@ const SettingsView = ({
   orders,
   getOrdersForExport,
   purgeAllOrders,
-  resetOrderNumber,
   onLogout,
   isOnline
 }) => {
@@ -128,8 +127,7 @@ const SettingsView = ({
             </h2>
 
             <p className="mb-4">
-              Tato akce trvale vymaže všechny objednávky z databáze a resetuje číslování
-              objednávek.<br/>
+              Tato akce trvale vymaže všechny objednávky z databáze.<br/>
               Data budou před vymazáním automaticky exportována.
             </p>
 
@@ -165,11 +163,9 @@ const SettingsView = ({
           onClose={() => setShowPurgeModal(false)}
           onPurgeComplete={async () => {
             await purgeAllOrders();
-            await resetOrderNumber();
             setShowPurgeModal(false);
           }}
           purgeAllOrders={purgeAllOrders}
-          resetOrderNumber={resetOrderNumber}
         />
       )}
     </section>

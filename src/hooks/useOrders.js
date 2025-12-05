@@ -10,9 +10,7 @@ import {
 
 export const useOrders = () => {
   const [orders, setOrders] = useState([]);
-  const [orderNumber, setOrderNumber] = useState(1);
   const [loading, setLoading] = useState(true);
-  const storage = useStorage();
   const { isOnline } = useNetworkStatus();
 
   useEffect(() => {
@@ -43,7 +41,7 @@ export const useOrders = () => {
 
   const loadData = async () => {
     setLoading(true);
-    await Promise.all([loadOrders(), loadOrderNumber()]);
+    await loadOrders();
     setLoading(false);
   };
 
@@ -69,16 +67,22 @@ export const useOrders = () => {
     }
   };
 
-  const loadOrderNumber = async () => {
-    const result = await storage.get('orderNumber');
-    if (result) {
-      setOrderNumber(parseInt(result));
-    }
-  };
+  const getNextOrderNumber = async () => {
+    try {
+      // Always get the max order number from the orders table
+      const { data, error } = await supabase
+        .from('orders')
+        .select('order_number')
+        .order('order_number', { ascending: false })
+        .limit(1);
 
-  const saveOrderNumber = async (num) => {
-    await storage.set('orderNumber', num);
-    setOrderNumber(num);
+      if (error) throw error;
+
+      return data?.[0]?.order_number ? data[0].order_number + 1 : 1;
+    } catch (error) {
+      console.error('Failed to get next order number:', error);
+      return 1; // Fallback to 1 if query fails
+    }
   };
 
   const addOrder = async (cart, getTotal, isStaffOrder = false, note = '') => {
@@ -97,7 +101,7 @@ export const useOrders = () => {
 
     const newOrder = {
       id: Date.now(),
-      order_number: null, // Will be assigned by server during sync
+      order_number: null, // Will be assigned during sync or below
       items: orderItems,
       total: getTotal(),
       timestamp: new Date().toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit', hour12: false }),
@@ -123,17 +127,14 @@ export const useOrders = () => {
     }
 
     try {
-      // Online: Normal Supabase insert with order number
-      const orderWithNumber = { ...newOrder, order_number: orderNumber };
+      // Online: Get next order number and insert
+      const nextOrderNumber = await getNextOrderNumber();
+      const orderWithNumber = { ...newOrder, order_number: nextOrderNumber };
       const { error } = await supabase
         .from('orders')
         .insert([orderWithNumber]);
 
       if (error) throw error;
-
-      // Increment order number
-      const nextOrderNum = orderNumber + 1;
-      await saveOrderNumber(nextOrderNum);
 
       // Reload orders to get updated state
       await loadOrders();
@@ -266,22 +267,11 @@ export const useOrders = () => {
     }
   };
 
-  const resetOrderNumber = async () => {
-    try {
-      await saveOrderNumber(1);
-      return { success: true };
-    } catch (error) {
-      console.error('Failed to reset order number:', error);
-      return { success: false, error: error.message };
-    }
-  };
-
   const pendingOrders = orders.filter(o => !o.completed);
   const completedOrders = orders.filter(o => o.completed).reverse();
 
   return {
     orders,
-    orderNumber,
     pendingOrders,
     completedOrders,
     addOrder,
@@ -291,8 +281,8 @@ export const useOrders = () => {
     updateOrderNote,
     getOrdersForExport,
     purgeAllOrders,
-    resetOrderNumber,
     loading,
-    loadOrders
+    loadOrders,
+    getNextOrderNumber
   };
 };

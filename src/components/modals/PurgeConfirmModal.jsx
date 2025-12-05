@@ -12,7 +12,7 @@ const STEPS = {
   SUCCESS: 'SUCCESS'
 };
 
-const PurgeConfirmModal = ({ orders, onClose, purgeAllOrders, resetOrderNumber }) => {
+const PurgeConfirmModal = ({ orders, onClose, purgeAllOrders }) => {
   const [currentStep, setCurrentStep] = useState(STEPS.PASSWORD_ENTRY);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -81,11 +81,6 @@ const PurgeConfirmModal = ({ orders, onClose, purgeAllOrders, resetOrderNumber }
         throw new Error(purgeResult.error || 'Nepodařilo se vymazat databázi');
       }
 
-      const resetResult = await resetOrderNumber();
-      if (!resetResult.success) {
-        throw new Error(resetResult.error || 'Nepodařilo se resetovat číslo objednávky');
-      }
-
       // Step 5: Success
       setCurrentStep(STEPS.SUCCESS);
     } catch (err) {
@@ -104,11 +99,6 @@ const PurgeConfirmModal = ({ orders, onClose, purgeAllOrders, resetOrderNumber }
       const purgeResult = await purgeAllOrders();
       if (!purgeResult.success) {
         throw new Error(purgeResult.error || 'Nepodařilo se vymazat databázi');
-      }
-
-      const resetResult = await resetOrderNumber();
-      if (!resetResult.success) {
-        throw new Error(resetResult.error || 'Nepodařilo se resetovat číslo objednávky');
       }
 
       setCurrentStep(STEPS.SUCCESS);
@@ -185,7 +175,7 @@ const PurgeConfirmModal = ({ orders, onClose, purgeAllOrders, resetOrderNumber }
               <div className="notification is-warning mb-4">
                 <p className="mb-3">
                   <strong>Upozornění:</strong> Tato akce trvale vymaže všechny objednávky
-                  z databáze a resetuje číslování na 1.
+                  z databáze.
                 </p>
                 <p>
                   Data budou před vymazáním automaticky exportována do CSV souboru.
@@ -276,11 +266,8 @@ const PurgeConfirmModal = ({ orders, onClose, purgeAllOrders, resetOrderNumber }
                 <p className="mb-2">
                   ✓ Data exportována: <strong>{exportedFilename}</strong>
                 </p>
-                <p className="mb-2">
-                  ✓ Všechny objednávky vymazány
-                </p>
                 <p>
-                  ✓ Číslo objednávky resetováno na 1
+                  ✓ Všechny objednávky vymazány
                 </p>
               </div>
             </div>
